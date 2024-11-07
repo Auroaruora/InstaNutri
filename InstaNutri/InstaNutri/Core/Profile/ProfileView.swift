@@ -47,7 +47,9 @@ struct ProfileView: View {
                 }
                 Section("Account"){
                     Button{
-                        print("Sign out..")
+                        Task{
+                            try await viewModel.signOut()
+                        }
                     }label:{
                         SettingRowView(imageName:"arrow.left.circle.fill",
                                         title:"Sign Out",
