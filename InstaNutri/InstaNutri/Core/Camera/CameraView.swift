@@ -74,12 +74,13 @@ struct CameraView: View {
         }
     }
 
-    // Save the captured image to the app's documents directory
     func saveImage() {
         guard let image = capturedImage else { return }
 
         if let data = image.jpegData(compressionQuality: 0.8) {
-            let filename = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("captured_image.jpg")
+            // Generate a unique filename with timestamp
+            let timestamp = Date().timeIntervalSince1970
+            let filename = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("captured_image_\(Int(timestamp)).jpg")
 
             do {
                 try data.write(to: filename)
@@ -90,6 +91,7 @@ struct CameraView: View {
             }
         }
     }
+
 
     func resetCamera() {
         capturedImage = nil
