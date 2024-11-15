@@ -1,0 +1,24 @@
+{
+  "originHash" : "92f908691dd4ed1638b94725de0a46646abdd107838f2efedde5117e9e76588d",
+  "pins" : [
+    {
+      "identity" : "eventsource",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Recouse/EventSource.git",
+      "state" : {
+        "revision" : "7db041ff31042bb3f1a8c3d045e57e17bb79bff5",
+        "version" : "0.0.8"
+      }
+    },
+    {
+      "identity" : "openai",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Recouse/OpenAI",
+      "state" : {
+        "revision" : "e928d988b4067050306316c337faec48467133d2",
+        "version" : "0.0.9"
+      }
+    }
+  ],
+  "version" : 3
+}

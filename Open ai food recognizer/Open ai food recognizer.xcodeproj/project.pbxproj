@@ -1,0 +1,585 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4384656F2CE3ECA500B1114E /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 4384656E2CE3ECA500B1114E /* OpenAI */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		438465512CE3E8E900B1114E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 438465382CE3E8E600B1114E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4384653F2CE3E8E600B1114E;
+			remoteInfo = "Open ai food recognizer";
+		};
+		4384655B2CE3E8E900B1114E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 438465382CE3E8E600B1114E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4384653F2CE3E8E600B1114E;
+			remoteInfo = "Open ai food recognizer";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		438465402CE3E8E600B1114E /* Open ai food recognizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Open ai food recognizer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		438465502CE3E8E900B1114E /* Open ai food recognizerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Open ai food recognizerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4384655A2CE3E8E900B1114E /* Open ai food recognizerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Open ai food recognizerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		438465422CE3E8E600B1114E /* Open ai food recognizer */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Open ai food recognizer";
+			sourceTree = "<group>";
+		};
+		438465532CE3E8E900B1114E /* Open ai food recognizerTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Open ai food recognizerTests";
+			sourceTree = "<group>";
+		};
+		4384655D2CE3E8E900B1114E /* Open ai food recognizerUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Open ai food recognizerUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4384653D2CE3E8E600B1114E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4384656F2CE3ECA500B1114E /* OpenAI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4384654D2CE3E8E900B1114E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		438465572CE3E8E900B1114E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		438465372CE3E8E600B1114E = {
+			isa = PBXGroup;
+			children = (
+				438465422CE3E8E600B1114E /* Open ai food recognizer */,
+				438465532CE3E8E900B1114E /* Open ai food recognizerTests */,
+				4384655D2CE3E8E900B1114E /* Open ai food recognizerUITests */,
+				438465412CE3E8E600B1114E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		438465412CE3E8E600B1114E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				438465402CE3E8E600B1114E /* Open ai food recognizer.app */,
+				438465502CE3E8E900B1114E /* Open ai food recognizerTests.xctest */,
+				4384655A2CE3E8E900B1114E /* Open ai food recognizerUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4384653F2CE3E8E600B1114E /* Open ai food recognizer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 438465642CE3E8E900B1114E /* Build configuration list for PBXNativeTarget "Open ai food recognizer" */;
+			buildPhases = (
+				4384653C2CE3E8E600B1114E /* Sources */,
+				4384653D2CE3E8E600B1114E /* Frameworks */,
+				4384653E2CE3E8E600B1114E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				438465422CE3E8E600B1114E /* Open ai food recognizer */,
+			);
+			name = "Open ai food recognizer";
+			packageProductDependencies = (
+				4384656E2CE3ECA500B1114E /* OpenAI */,
+			);
+			productName = "Open ai food recognizer";
+			productReference = 438465402CE3E8E600B1114E /* Open ai food recognizer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4384654F2CE3E8E900B1114E /* Open ai food recognizerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 438465672CE3E8E900B1114E /* Build configuration list for PBXNativeTarget "Open ai food recognizerTests" */;
+			buildPhases = (
+				4384654C2CE3E8E900B1114E /* Sources */,
+				4384654D2CE3E8E900B1114E /* Frameworks */,
+				4384654E2CE3E8E900B1114E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				438465522CE3E8E900B1114E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				438465532CE3E8E900B1114E /* Open ai food recognizerTests */,
+			);
+			name = "Open ai food recognizerTests";
+			packageProductDependencies = (
+			);
+			productName = "Open ai food recognizerTests";
+			productReference = 438465502CE3E8E900B1114E /* Open ai food recognizerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		438465592CE3E8E900B1114E /* Open ai food recognizerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4384656A2CE3E8E900B1114E /* Build configuration list for PBXNativeTarget "Open ai food recognizerUITests" */;
+			buildPhases = (
+				438465562CE3E8E900B1114E /* Sources */,
+				438465572CE3E8E900B1114E /* Frameworks */,
+				438465582CE3E8E900B1114E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4384655C2CE3E8E900B1114E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				4384655D2CE3E8E900B1114E /* Open ai food recognizerUITests */,
+			);
+			name = "Open ai food recognizerUITests";
+			packageProductDependencies = (
+			);
+			productName = "Open ai food recognizerUITests";
+			productReference = 4384655A2CE3E8E900B1114E /* Open ai food recognizerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		438465382CE3E8E600B1114E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					4384653F2CE3E8E600B1114E = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					4384654F2CE3E8E900B1114E = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 4384653F2CE3E8E600B1114E;
+					};
+					438465592CE3E8E900B1114E = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 4384653F2CE3E8E600B1114E;
+					};
+				};
+			};
+			buildConfigurationList = 4384653B2CE3E8E600B1114E /* Build configuration list for PBXProject "Open ai food recognizer" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 438465372CE3E8E600B1114E;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				4384656D2CE3ECA500B1114E /* XCRemoteSwiftPackageReference "OpenAI" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 438465412CE3E8E600B1114E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4384653F2CE3E8E600B1114E /* Open ai food recognizer */,
+				4384654F2CE3E8E900B1114E /* Open ai food recognizerTests */,
+				438465592CE3E8E900B1114E /* Open ai food recognizerUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4384653E2CE3E8E600B1114E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4384654E2CE3E8E900B1114E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		438465582CE3E8E900B1114E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4384653C2CE3E8E600B1114E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4384654C2CE3E8E900B1114E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		438465562CE3E8E900B1114E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		438465522CE3E8E900B1114E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4384653F2CE3E8E600B1114E /* Open ai food recognizer */;
+			targetProxy = 438465512CE3E8E900B1114E /* PBXContainerItemProxy */;
+		};
+		4384655C2CE3E8E900B1114E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4384653F2CE3E8E600B1114E /* Open ai food recognizer */;
+			targetProxy = 4384655B2CE3E8E900B1114E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		438465622CE3E8E900B1114E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		438465632CE3E8E900B1114E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		438465652CE3E8E900B1114E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Open ai food recognizer/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.whbw.Open-ai-food-recognizer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		438465662CE3E8E900B1114E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Open ai food recognizer/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.whbw.Open-ai-food-recognizer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		438465682CE3E8E900B1114E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.whbw.Open-ai-food-recognizerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Open ai food recognizer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Open ai food recognizer";
+			};
+			name = Debug;
+		};
+		438465692CE3E8E900B1114E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.whbw.Open-ai-food-recognizerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Open ai food recognizer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Open ai food recognizer";
+			};
+			name = Release;
+		};
+		4384656B2CE3E8E900B1114E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.whbw.Open-ai-food-recognizerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Open ai food recognizer";
+			};
+			name = Debug;
+		};
+		4384656C2CE3E8E900B1114E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.whbw.Open-ai-food-recognizerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Open ai food recognizer";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4384653B2CE3E8E600B1114E /* Build configuration list for PBXProject "Open ai food recognizer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				438465622CE3E8E900B1114E /* Debug */,
+				438465632CE3E8E900B1114E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		438465642CE3E8E900B1114E /* Build configuration list for PBXNativeTarget "Open ai food recognizer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				438465652CE3E8E900B1114E /* Debug */,
+				438465662CE3E8E900B1114E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		438465672CE3E8E900B1114E /* Build configuration list for PBXNativeTarget "Open ai food recognizerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				438465682CE3E8E900B1114E /* Debug */,
+				438465692CE3E8E900B1114E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4384656A2CE3E8E900B1114E /* Build configuration list for PBXNativeTarget "Open ai food recognizerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4384656B2CE3E8E900B1114E /* Debug */,
+				4384656C2CE3E8E900B1114E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4384656D2CE3ECA500B1114E /* XCRemoteSwiftPackageReference "OpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Recouse/OpenAI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.9;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4384656E2CE3ECA500B1114E /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4384656D2CE3ECA500B1114E /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 438465382CE3E8E600B1114E /* Project object */;
+}
