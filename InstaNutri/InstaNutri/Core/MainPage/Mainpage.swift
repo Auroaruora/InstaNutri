@@ -55,9 +55,9 @@ struct MainPageView: View {
                     // Scrollable Food List with Navigation Links
                     ScrollView {
                         VStack(spacing: 20) {
-                            ForEach(foodItems, id: \.name) { item in
+                            ForEach(mealItems, id: \.name) { item in
                                 NavigationLink(destination: Text("\(item.name) Details Placeholder")) {
-                                    FoodItemView(foodItem: item)
+                                    mealItemView(mealItem: item)
                                 }
                             }
                         }
@@ -88,8 +88,8 @@ struct MainPageView: View {
     }
 }
 
-// Data structure for FoodItem
-struct FoodItem: Identifiable {
+// Data structure for mealItem
+struct MealItem: Identifiable {
     let id = UUID()
     let name: String
     let calories: Int
@@ -100,28 +100,28 @@ struct FoodItem: Identifiable {
 }
 
 // List of hardcoded food items
-let foodItems = [
-    FoodItem(name: "Salad with eggs", calories: 294, protein: 12, fats: 22, carbs: 42, emoji: "🥗"),
-    FoodItem(name: "Pancakes", calories: 294, protein: 12, fats: 22, carbs: 42, emoji: "🥞"),
-    FoodItem(name: "Avocado Dish", calories: 294, protein: 12, fats: 32, carbs: 12, emoji: "🥑"),
-    FoodItem(name: "Fruit Salad", calories: 150, protein: 2, fats: 0, carbs: 38, emoji: "🍇"),
-    FoodItem(name: "Grilled Chicken", calories: 200, protein: 30, fats: 5, carbs: 0, emoji: "🍗"),
-    FoodItem(name: "Smoothie", calories: 180, protein: 5, fats: 3, carbs: 32, emoji: "🍹")
+let mealItems = [
+    MealItem(name: "Salad with eggs", calories: 294, protein: 12, fats: 22, carbs: 42, emoji: "🥗"),
+    MealItem(name: "Pancakes", calories: 294, protein: 12, fats: 22, carbs: 42, emoji: "🥞"),
+    MealItem(name: "Avocado Dish", calories: 294, protein: 12, fats: 32, carbs: 12, emoji: "🥑"),
+    MealItem(name: "Fruit Salad", calories: 150, protein: 2, fats: 0, carbs: 38, emoji: "🍇"),
+    MealItem(name: "Grilled Chicken", calories: 200, protein: 30, fats: 5, carbs: 0, emoji: "🍗"),
+    MealItem(name: "Smoothie", calories: 180, protein: 5, fats: 3, carbs: 32, emoji: "🍹")
 ]
 
 // Food Item View
-struct FoodItemView: View {
-    let foodItem: FoodItem
+struct mealItemView: View {
+    let mealItem: MealItem
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text(foodItem.emoji)
+                Text(mealItem.emoji)
                     .font(.largeTitle)
                 VStack(alignment: .leading) {
-                    Text(foodItem.name)
+                    Text(mealItem.name)
                         .font(.headline)
-                    Text("\(foodItem.calories) kcal - 100g")
+                    Text("\(mealItem.calories) kcal - 100g")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
@@ -133,11 +133,11 @@ struct FoodItemView: View {
             }
             
             HStack {
-                NutrientInfoView(nutrient: "Protein", amount: foodItem.protein, color: .green)
+                NutrientInfoView(nutrient: "Protein", amount: mealItem.protein, color: .green)
                 Spacer()
-                NutrientInfoView(nutrient: "Fats", amount: foodItem.fats, color: .red)
+                NutrientInfoView(nutrient: "Fats", amount: mealItem.fats, color: .red)
                 Spacer()
-                NutrientInfoView(nutrient: "Carbs", amount: foodItem.carbs, color: .yellow)
+                NutrientInfoView(nutrient: "Carbs", amount: mealItem.carbs, color: .yellow)
             }
         }
         .padding()

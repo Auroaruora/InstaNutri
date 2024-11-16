@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FoodDetailView: View {
+struct MealDetailView: View {
     var body: some View {
         VStack(spacing: 20) {
             // Title
@@ -86,9 +86,9 @@ struct FoodDetailView: View {
 }
 
 // Preview Setup
-struct FoodDetailView_Previews: PreviewProvider {
+struct MealDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        FoodDetailView()
+        MealDetailView()
             .previewDevice("iPhone 14 Pro") // Choose device for preview
     }
 }

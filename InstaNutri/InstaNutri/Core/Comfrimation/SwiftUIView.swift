@@ -65,6 +65,7 @@ struct DetectedView: View {
     }
 }
 
+// Define the FoodDetailView struct only once
 struct FoodDetailView: View {
     @Binding var foodItem: FoodItem
     let deleteAction: () -> Void
@@ -150,6 +151,7 @@ struct FoodDetailView: View {
     }
 }
 
+// Reusable NutrientBar View
 struct NutrientBar: View {
     let color: Color
     let value: Int
@@ -175,12 +177,7 @@ struct NutrientBar: View {
     }
 }
 
-struct DetectedView_Previews: PreviewProvider {
-    static var previews: some View {
-        DetectedView()
-    }
-}
-
+// EditWeightView for editing weight
 struct EditWeightView: View {
     @Binding var foodItem: FoodItem
     @Environment(\.presentationMode) var presentationMode // To dismiss the sheet
@@ -208,3 +205,11 @@ struct EditWeightView: View {
         .padding()
     }
 }
+
+// Preview for DetectedView
+struct DetectedView_Previews: PreviewProvider {
+    static var previews: some View {
+        DetectedView()
+    }
+}
+
