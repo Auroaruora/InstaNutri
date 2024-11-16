@@ -12,10 +12,26 @@ struct ContentView: View {
     var body: some View {
         Group{
             if viewModel.userSession != nil{
-                ProfileView()
+                if let _ = viewModel.currentUser {
+                    MainPageView()
+                } else {
+                    LoadingView()
+                }
             }else{
                 LoginView()
             }
+        }
+    }
+}
+
+struct LoadingView: View {
+    var body: some View {
+        VStack {
+            ProgressView("Loading...")
+                .progressViewStyle(CircularProgressViewStyle())
+                .padding()
+            Text("Fetching your data...")
+                .foregroundColor(.gray)
         }
     }
 }

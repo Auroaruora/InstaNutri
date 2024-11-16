@@ -6,6 +6,7 @@ struct CameraView: View {
     @State private var capturedImage: UIImage? = nil
     @State private var savedImagePath: URL? = nil
     @State private var isAnalyzing = false
+    @State private var navigateToDetectedView = false
 
     var body: some View {
         VStack {
@@ -23,7 +24,10 @@ struct CameraView: View {
                         .cornerRadius(10)
                         .padding()
 
-                    Button(action: saveImage) {
+                    Button(action: {
+                        saveImage()
+                        navigateToDetectedView = true
+                    }) {
                         Text("Save for Analysis")
                             .font(.headline)
                             .padding()
@@ -72,6 +76,11 @@ struct CameraView: View {
         .sheet(isPresented: $isCameraPresented) {
             ImagePicker(image: $capturedImage, isAnalyzing: $isAnalyzing)
         }
+        .background(
+            NavigationLink(destination: DetectedView(), isActive: $navigateToDetectedView) {
+                EmptyView() // NavigationLink is hidden until triggered
+            }
+        )
     }
 
     func saveImage() {

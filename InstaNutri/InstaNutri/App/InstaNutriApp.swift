@@ -17,8 +17,10 @@ struct InstaNutriApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(viewModel)
+            NavigationStack {
+                ContentView()
+                    .environmentObject(viewModel)
+            }
         }
     }
 }

@@ -1,90 +1,105 @@
 import SwiftUI
 
 struct MainPageView: View {
+    @EnvironmentObject var viewModel: AuthViewModel
+    @State private var navigateToCamera = false
+    @State private var navigateToProfile = false
     var body: some View {
-        NavigationView {
-            ZStack {
+        ZStack {
+            VStack {
+                // Header with Navigation to Profile Page
+                HStack {
+                    NavigationLink(
+                        destination: ProfileView().environmentObject(viewModel),
+                        isActive: $navigateToProfile
+                    ) {
+                        EmptyView()
+                    }
+                    Button(action: {
+                        navigateToProfile = true
+                    }) {
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .clipShape(Circle())
+                            .padding(.leading)
+                    }
+                    
+                    VStack(alignment: .leading) {
+                        Text("Welcome")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                        Text("CU Student")
+                            .font(.title2)
+                            .bold()
+                    }
+                    
+                    Spacer()
+                }
+                .padding(.top)
+                
+                // Calorie Gauge
                 VStack {
-                    // Header with Navigation to Profile Page
-                    HStack {
-                        NavigationLink(destination: Text("Profile Page Placeholder")) {
-                            Image(systemName: "person.circle.fill") // Placeholder for profile image
-                                .resizable()
-                                .frame(width: 50, height: 50)
-                                .clipShape(Circle())
-                                .padding(.leading)
-                        }
+                    ZStack {
+                        Circle()
+                            .trim(from: 0.0, to: 0.75)
+                            .stroke(Color.red.opacity(0.5), lineWidth: 20)
+                            .rotationEffect(.degrees(180))
+                            .frame(width: 150, height: 150)
                         
-                        VStack(alignment: .leading) {
-                            Text("Welcome")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                            Text("CU Student")
-                                .font(.title2)
+                        VStack {
+                            Image(systemName: "flame.fill")
+                                .foregroundColor(.red)
+                            Text("1721 Kcal")
+                                .font(.title)
                                 .bold()
+                            Text("of 2213 kcal")
+                                .foregroundColor(.gray)
                         }
-                        
-                        Spacer()
                     }
                     .padding(.top)
                     
-                    // Calorie Gauge
-                    VStack {
-                        ZStack {
-                            Circle()
-                                .trim(from: 0.0, to: 0.75)
-                                .stroke(Color.red.opacity(0.5), lineWidth: 20)
-                                .rotationEffect(.degrees(180))
-                                .frame(width: 150, height: 150)
-                            
-                            VStack {
-                                Image(systemName: "flame.fill")
-                                    .foregroundColor(.red)
-                                Text("1721 Kcal")
-                                    .font(.title)
-                                    .bold()
-                                Text("of 2213 kcal")
-                                    .foregroundColor(.gray)
-                            }
-                        }
-                        .padding(.top)
-                        
-                        Spacer().frame(height: 20)
-                    }
+                    Spacer().frame(height: 20)
+                }
 
-                    // Scrollable Food List with Navigation Links
-                    ScrollView {
-                        VStack(spacing: 20) {
-                            ForEach(mealItems, id: \.name) { item in
-                                NavigationLink(destination: Text("\(item.name) Details Placeholder")) {
-                                    mealItemView(mealItem: item)
-                                }
+                // Scrollable Food List with Navigation Links
+                ScrollView {
+                    VStack(spacing: 20) {
+                        ForEach(mealItems, id: \.name) { item in
+                            NavigationLink(destination: MealDetailView()) {
+                                mealItemView(mealItem: item)
                             }
                         }
-                        .padding(.horizontal)
                     }
-                    .padding(.bottom, 80)
+                    .padding(.horizontal)
                 }
-                
-                // Fixed Add Button
-                VStack {
-                    Spacer()
-                    Button(action: {
-                        // Action to add food (optional)
-                    }) {
-                        Image(systemName: "plus")
-                            .font(.title2)
-                            .foregroundColor(.white)
-                            .padding(16)
-                            .background(Color.green)
-                            .clipShape(Circle())
-                    }
-                    .padding(.bottom, 20)
-                }
+                .padding(.bottom, 80)
             }
-            .navigationTitle("Dashboard")
-            .navigationBarTitleDisplayMode(.inline)
+            
+            // Fixed Add Button
+            VStack {
+                Spacer()
+                NavigationLink(
+                    destination: CameraView(),
+                    isActive: $navigateToCamera
+                ) {
+                    EmptyView()
+                }
+                Button(action: {
+                    navigateToCamera = true
+                }) {
+                    Image(systemName: "plus")
+                        .font(.title2)
+                        .foregroundColor(.white)
+                        .padding(16)
+                        .background(Color.green)
+                        .clipShape(Circle())
+                }
+                .padding(.bottom, 20)
+            }
         }
+        .navigationTitle("Dashboard")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
