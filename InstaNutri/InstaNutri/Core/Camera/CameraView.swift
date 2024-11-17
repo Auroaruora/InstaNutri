@@ -183,23 +183,31 @@ struct CameraView: View {
                 print("Raw JSON response:\n\(rawResponse)")
             }
 
-//            do {
-//                if let jsonObject = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-//                   let choices = jsonObject["choices"] as? [[String: Any]],
-//                   let message = choices.first?["message"] as? [String: Any],
-//                   let functionCall = message["function_call"] as? [String: Any],
-//                   let argumentsString = functionCall["arguments"] as? String,
-//                   let argumentsData = argumentsString.data(using: .utf8) {
-//                    
-//                    let decodedResponse = try JSONDecoder().decode(FoodResponse.self, from: argumentsData)
-//                    DispatchQueue.main.async {
-//                        foodItems = decodedResponse.food_items
-//                        navigateToDetectedView = true
-//                    }
-//                }
-//            } catch {
-//                print("Failed to decode API response: \(error)")
-//            }
+            do {
+                if let jsonObject = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let choices = jsonObject["choices"] as? [[String: Any]],
+                   let message = choices.first?["message"] as? [String: Any],
+                   let functionCall = message["function_call"] as? [String: Any],
+                   let argumentsString = functionCall["arguments"] as? String,
+                   let argumentsData = argumentsString.data(using: .utf8) {
+
+                    // Decode the JSON response
+                    let decodedResponse = try JSONDecoder().decode(FoodResponse.self, from: argumentsData)
+
+                    DispatchQueue.main.async {
+                        self.foodItems = decodedResponse.food_items
+                        self.navigateToDetectedView = true
+
+                        // Print the decoded object
+                        print("Decoded Food Items:")
+                        for item in decodedResponse.food_items {
+                            print("Name: \(item.name), Weight: \(item.weight)g, Calories: \(item.calories)")
+                        }
+                    }
+                }
+            } catch {
+                print("Failed to decode API response: \(error)")
+            }
         }.resume()
     }
 }
@@ -256,4 +264,12 @@ struct FoodItems: Codable, Identifiable {
     let name: String
     let weight: Double
     let calories: Double
+    private enum CodingKeys: String, CodingKey {
+        case name, weight, calories
+    }
 }
+
+struct FoodResponse: Codable {
+    let food_items: [FoodItems]
+}
+
