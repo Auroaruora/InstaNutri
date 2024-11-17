@@ -7,7 +7,7 @@ struct CameraView: View {
     @State private var savedImagePath: URL? = nil
     @State private var isAnalyzing = false
     @State private var navigateToDetectedView = false
-    @State private var foodItems: [FoodItem] = []
+    @State private var foodItems: [FoodItems] = []
 
     var body: some View {
         VStack {
@@ -27,7 +27,7 @@ struct CameraView: View {
 
                     Button(action: {
                         saveImage()
-                        analyzeImage()
+                        analyzeImage(image: image)
                         navigateToDetectedView = true
                     }) {
                         Text("Save for Analysis")
@@ -109,9 +109,8 @@ struct CameraView: View {
         savedImagePath = nil
         isAnalyzing = false
     }
-    func analyzeImage() {
-        guard let image = capturedImage,
-              let imageData = image.jpegData(compressionQuality: 0.8) else {
+    func analyzeImage(image: UIImage) {
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
             print("Failed to load image")
             return
         }
@@ -152,8 +151,10 @@ struct CameraView: View {
             "model": "gpt-4o-mini",
             "messages": [
                 ["role": "system", "content": "You are a helpful assistant identifying food items from an image and providing calorie details."],
-                ["role": "user", "content": "Please analyze the following image to list the food items with their estimated calories and weights."],
-                ["type": "image_url", "image_url": "data:image/jpeg;base64,\(base64Image)"]
+                ["role": "user", "content": [
+                    ["type": "text", "text": "Please analyze the following image to list the food items with their estimated calories and weights."],
+                    ["type": "image_url", "image_url": ["url": "data:image/jpeg;base64,\(base64Image)"]]
+                ]]
             ],
             "functions": [functionSchema],
             "max_tokens": 500
