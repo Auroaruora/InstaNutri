@@ -11,15 +11,18 @@ import Firebase
 @main
 struct InstaNutriApp: App {
     @StateObject var viewModel = AuthViewModel()
-    init(){
+    @StateObject var healthDataViewModel = HealthDataViewModel() // Add HealthDataViewModel
+
+    init() {
         FirebaseApp.configure()
     }
-    
+
     var body: some Scene {
         WindowGroup {
             NavigationStack {
                 ContentView()
-                    .environmentObject(viewModel)
+                    .environmentObject(viewModel) // Inject AuthViewModel
+                    .environmentObject(healthDataViewModel) // Inject HealthDataViewModel
             }
         }
     }
