@@ -137,22 +137,27 @@ struct CameraView: View {
                             "properties": [
                                 "name": ["type": "string"],
                                 "weight": ["type": "number"],
-                                "calories": ["type": "number"]
+                                "calories": ["type": "number"],
+                                "protein": ["type": "number"],
+                                "fats": ["type": "number"],
+                                "carbs": ["type": "number"]
                             ],
-                            "required": ["name", "weight", "calories"]
+                            "required": ["name", "weight", "calories","protein","fats", "carbs"]
                         ]
                     ]
                 ],
                 "required": ["food_items"]
             ]
         ]
+
         
+        // Construct the JSON payload
         let jsonBody: [String: Any] = [
             "model": "gpt-4o-mini",
             "messages": [
                 ["role": "system", "content": "You are a helpful assistant identifying food items from an image and providing calorie details."],
                 ["role": "user", "content": [
-                    ["type": "text", "text": "Please analyze the following image to list the food items with their estimated calories and weights."],
+                    ["type": "text", "text": "Please analyze the following image to list the food items with their estimated calories, weights, proteins, fats, and carbs."],
                     ["type": "image_url", "image_url": ["url": "data:image/jpeg;base64,\(base64Image)"]]
                 ]]
             ],
@@ -201,7 +206,14 @@ struct CameraView: View {
                         // Print the decoded object
                         print("Decoded Food Items:")
                         for item in decodedResponse.food_items {
-                            print("Name: \(item.name), Weight: \(item.weight)g, Calories: \(item.calories)")
+                            print("""
+                            Name: \(item.name)
+                            Weight: \(item.weight)g
+                            Calories: \(item.calories)
+                            Protein: \(item.protein)g
+                            Fat: \(item.fat)g
+                            Carbs: \(item.carbs)g
+                            """)
                         }
                     }
                 }
@@ -264,8 +276,12 @@ struct FoodItems: Codable, Identifiable {
     let name: String
     let weight: Double
     let calories: Double
+    let protein: Double
+    let fat: Double
+    let carbs: Double
+
     private enum CodingKeys: String, CodingKey {
-        case name, weight, calories
+        case name, weight, calories, protein, fat = "fats", carbs
     }
 }
 
