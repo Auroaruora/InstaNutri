@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var viewModel:AuthViewModel
+    @EnvironmentObject var healthDataViewModel: HealthDataViewModel
+
     var body: some View {
         Group{
             if viewModel.userSession != nil{

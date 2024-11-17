@@ -22,11 +22,6 @@ class HealthDataViewModel: ObservableObject {
         HKObjectType.quantityType(forIdentifier: .dietaryEnergyConsumed)!
     ]
 
-    init() {
-        // Automatically request authorization when the view model is created
-        requestHealthAuthorization()
-    }
-
     // Function to request HealthKit authorization
     func requestHealthAuthorization() {
         Task {

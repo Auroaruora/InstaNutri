@@ -2,6 +2,8 @@ import SwiftUI
 
 struct MainPageView: View {
     @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject var healthDataViewModel: HealthDataViewModel
+
     @State private var navigateToCamera = false
     @State private var navigateToProfile = false
     var body: some View {
@@ -10,7 +12,8 @@ struct MainPageView: View {
                 // Header with Navigation to Profile Page
                 HStack {
                     NavigationLink(
-                        destination: ProfileView().environmentObject(viewModel),
+                        destination: ProfileView().environmentObject(viewModel)
+                            .environmentObject(healthDataViewModel),
                         isActive: $navigateToProfile
                     ) {
                         EmptyView()
