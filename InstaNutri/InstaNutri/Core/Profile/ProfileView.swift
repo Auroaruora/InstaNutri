@@ -76,6 +76,16 @@ struct ProfileView: View {
                     }
                 }
             }
+            .alert(isPresented: $healthDataViewModel.showHealthSettingsAlert) {
+                Alert(
+                    title: Text("Health App Permission"),
+                    message: Text("You are redirecting to the Health app to change permissions. Do you want to continue?"),
+                    primaryButton: .default(Text("Yes")) {
+                        healthDataViewModel.openHealthSettings()
+                    },
+                    secondaryButton: .cancel()
+                )
+            }
         }
     }
 }
