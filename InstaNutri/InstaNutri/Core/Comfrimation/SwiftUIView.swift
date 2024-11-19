@@ -21,8 +21,18 @@ struct DetectedView: View {
     @State private var navigateToMainPage = false // Navigation state
 
     // Initialization with FoodItem array
-    init(foodItems: [FoodItem]) {
-        self._foodItems = State(initialValue: foodItems)
+    init(foodItems: [FoodItems]) {
+        // Transform `FoodItems` to `FoodItem`
+        self._foodItems = State(initialValue: foodItems.map { item in
+            FoodItem(
+                name: item.name,
+                weight: item.weight,
+                calories: item.calories,
+                protein: item.protein,
+                fats: item.fat,
+                carbs: item.carbs
+            )
+        })
     }
 
     var body: some View {
