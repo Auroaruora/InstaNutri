@@ -6,6 +6,8 @@ struct MainPageView: View {
 
     @State private var navigateToCamera = false
     @State private var navigateToProfile = false
+    @State private var mealItems: [Meal] = [] // Stores meals loaded from JSON
+    
     var body: some View {
         ZStack {
             VStack {
@@ -41,7 +43,7 @@ struct MainPageView: View {
                 }
                 .padding(.top)
                 
-                // Calorie Gauge
+                // Calorie Gauge (static values for now)
                 VStack {
                     ZStack {
                         Circle()
@@ -68,9 +70,9 @@ struct MainPageView: View {
                 // Scrollable Food List with Navigation Links
                 ScrollView {
                     VStack(spacing: 20) {
-                        ForEach(mealItems, id: \.name) { item in
-                            NavigationLink(destination: MealDetailView()) {
-                                mealItemView(mealItem: item)
+                        ForEach(mealItems, id: \.time) { item in
+                            NavigationLink(destination: MealDetailView(meal: item)) {
+                                mealItemView(meal: item)
                             }
                         }
                     }
@@ -101,61 +103,54 @@ struct MainPageView: View {
                 .padding(.bottom, 20)
             }
         }
+        .onAppear(perform: loadMeals) // Load data when the view appears
         .navigationTitle("Dashboard")
         .navigationBarTitleDisplayMode(.inline)
     }
+    
+    // Load meals from JSON filtered by today's date
+    private func loadMeals() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let today = dateFormatter.string(from: Date())
+        
+        if let url = MealDataManager.shared.fileURL,
+           let data = try? Data(contentsOf: url),
+           let meals = try? JSONDecoder().decode([Meal].self, from: data) {
+            // Filter meals by today's date
+            mealItems = meals.filter { $0.date == today }
+        } else {
+            print("Failed to load meals from JSON.")
+        }
+    }
 }
 
-// Data structure for mealItem
-struct MealItem: Identifiable {
-    let id = UUID()
-    let name: String
-    let calories: Int
-    let protein: Int
-    let fats: Int
-    let carbs: Int
-    let emoji: String
-}
-
-// List of hardcoded food items
-let mealItems = [
-    MealItem(name: "Salad with eggs", calories: 294, protein: 12, fats: 22, carbs: 42, emoji: "🥗"),
-    MealItem(name: "Pancakes", calories: 294, protein: 12, fats: 22, carbs: 42, emoji: "🥞"),
-    MealItem(name: "Avocado Dish", calories: 294, protein: 12, fats: 32, carbs: 12, emoji: "🥑"),
-    MealItem(name: "Fruit Salad", calories: 150, protein: 2, fats: 0, carbs: 38, emoji: "🍇"),
-    MealItem(name: "Grilled Chicken", calories: 200, protein: 30, fats: 5, carbs: 0, emoji: "🍗"),
-    MealItem(name: "Smoothie", calories: 180, protein: 5, fats: 3, carbs: 32, emoji: "🍹")
-]
-
-// Food Item View
+// View for individual meal item
 struct mealItemView: View {
-    let mealItem: MealItem
+    let meal: Meal
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text(mealItem.emoji)
+                Text("🕒")
                     .font(.largeTitle)
                 VStack(alignment: .leading) {
-                    Text(mealItem.name)
+                    Text(meal.time) // Display the time as the name
                         .font(.headline)
-                    Text("\(mealItem.calories) kcal - 100g")
+                    Text("\(Int(meal.totalCalories)) kcal") // Display total calories
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
                 
                 Spacer()
-                
-                Image(systemName: "ellipsis")
-                    .foregroundColor(.gray)
             }
             
             HStack {
-                NutrientInfoView(nutrient: "Protein", amount: mealItem.protein, color: .green)
+                NutrientInfoView(nutrient: "Protein", amount: Int(meal.totalProtein), color: .green)
                 Spacer()
-                NutrientInfoView(nutrient: "Fats", amount: mealItem.fats, color: .red)
+                NutrientInfoView(nutrient: "Fats", amount: Int(meal.totalFats), color: .red)
                 Spacer()
-                NutrientInfoView(nutrient: "Carbs", amount: mealItem.carbs, color: .yellow)
+                NutrientInfoView(nutrient: "Carbs", amount: Int(meal.totalCarbs), color: .yellow)
             }
         }
         .padding()

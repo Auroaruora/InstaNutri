@@ -22,9 +22,9 @@ class MealDataManager {
     private init() {}
 
     private let fileName = "meals.json"
-    private var fileURL: URL? {
+    var fileURL: URL? {
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-        return documentDirectory?.appendingPathComponent("\(fileName)")
+        return documentDirectory?.appendingPathComponent(fileName)
     }
 
     func saveMeal(_ meal: Meal) {
