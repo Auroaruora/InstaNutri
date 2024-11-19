@@ -28,7 +28,6 @@ struct CameraView: View {
                     Button(action: {
                         saveImage()
                         analyzeImage(image: image)
-                        navigateToDetectedView = true
                     }) {
                         Text("Save for Analysis")
                             .font(.headline)
@@ -78,11 +77,31 @@ struct CameraView: View {
         .sheet(isPresented: $isCameraPresented) {
             ImagePicker(image: $capturedImage, isAnalyzing: $isAnalyzing)
         }
-        .background(
-            NavigationLink(destination: DetectedView(foodItems: foodItems, imageUrl: savedImagePath), isActive: $navigateToDetectedView) {
-                EmptyView() // NavigationLink is hidden until triggered
-            }
-        )
+        
+//        if navigateToDetectedView {
+//            NavigationLink(
+//                destination: DetectedView(
+//                    foodItems: mapFoodItemsToFoodItem(foodItems: foodItems),
+//                    imageUrl: savedImagePath
+//                ),
+//                isActive: $navigateToDetectedView
+//            ) {
+//                EmptyView()
+//            }
+//            .hidden() // Keeps the navigation link invisible
+//        }
+        NavigationLink(
+            destination: navigateToDetectedView ? DetectedView(
+                foodItems: mapFoodItemsToFoodItem(foodItems: foodItems),
+                imageUrl: savedImagePath
+            ) : nil,
+            isActive: $navigateToDetectedView
+        ) {
+            EmptyView()
+        }
+        .hidden()
+
+
     }
 
     func saveImage() {
@@ -223,7 +242,23 @@ struct CameraView: View {
         }.resume()
     }
     
-    
+    func mapFoodItemsToFoodItem(foodItems: [FoodItems]) -> [FoodItem] {
+        let mappedItems = foodItems.map { item in
+            FoodItem(
+                name: item.name,
+                weight: item.weight,
+                calories: item.calories,
+                protein: item.protein,
+                fats: item.fat, // Mapping `fat` from `FoodItems` to `fats` in `FoodItem`
+                carbs: item.carbs
+            )
+        }
+        
+        // Debug print the mapped items
+        print("Mapped Food Items: \(mappedItems)")
+        
+        return mappedItems
+    }
     
 }
 

@@ -17,24 +17,10 @@ struct FoodItem: Codable {
 }
 
 struct DetectedView: View {
-    @State private var foodItems: [FoodItem]
     @State private var navigateToMainPage = false // Navigation state
-    let imageUrl: URL?
 
-    init(foodItems: [FoodItems], imageUrl: URL?) {
-        // Transform `FoodItems` to `FoodItem`
-        self._foodItems = State(initialValue: foodItems.map { item in
-            FoodItem(
-                name: item.name,
-                weight: item.weight,
-                calories: item.calories,
-                protein: item.protein,
-                fats: item.fat,
-                carbs: item.carbs
-            )
-        })
-        self.imageUrl = imageUrl
-    }
+    @State var foodItems: [FoodItem]
+    let imageUrl: URL?
 
     var body: some View {
         NavigationStack {
