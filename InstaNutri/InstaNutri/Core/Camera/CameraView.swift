@@ -79,7 +79,7 @@ struct CameraView: View {
             ImagePicker(image: $capturedImage, isAnalyzing: $isAnalyzing)
         }
         .background(
-            NavigationLink(destination: DetectedView(foodItems: foodItems), isActive: $navigateToDetectedView) {
+            NavigationLink(destination: DetectedView(foodItems: foodItems, imageUrl: savedImagePath), isActive: $navigateToDetectedView) {
                 EmptyView() // NavigationLink is hidden until triggered
             }
         )

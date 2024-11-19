@@ -18,12 +18,36 @@ struct MealDetailView: View {
                 .fontWeight(.semibold)
                 .padding(.top, 20)
             
-            // Placeholder Image
-            Image("salad") // Replace "salad" with your image asset's name
-                .resizable()
-                .scaledToFit()
-                .frame(width: 200, height: 200)
-                .clipShape(Circle())
+            // Display the actual photo or a fallback
+            if let imageUrl = meal.savedImageUrl {
+                AsyncImage(url: imageUrl) { phase in
+                    switch phase {
+                    case .empty:
+                        ProgressView() // Show loading indicator
+                            .frame(width: 200, height: 200)
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 200, height: 200)
+                            .clipShape(Circle())
+                    case .failure:
+                        Image(systemName: "photo") // Fallback image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 200, height: 200)
+                            .foregroundColor(.gray)
+                    @unknown default:
+                        EmptyView()
+                    }
+                }
+            } else {
+                Image(systemName: "photo") // Fallback if URL is nil
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 200, height: 200)
+                    .foregroundColor(.gray)
+            }
             
             // Ingredients List
             VStack(alignment: .leading, spacing: 10) {
@@ -54,6 +78,5 @@ struct MealDetailView: View {
         .padding()
     }
 }
-
 
 

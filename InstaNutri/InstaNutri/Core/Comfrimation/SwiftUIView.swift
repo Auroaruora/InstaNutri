@@ -19,9 +19,9 @@ struct FoodItem: Codable {
 struct DetectedView: View {
     @State private var foodItems: [FoodItem]
     @State private var navigateToMainPage = false // Navigation state
+    let imageUrl: URL?
 
-    // Initialization with FoodItem array
-    init(foodItems: [FoodItems]) {
+    init(foodItems: [FoodItems], imageUrl: URL?) {
         // Transform `FoodItems` to `FoodItem`
         self._foodItems = State(initialValue: foodItems.map { item in
             FoodItem(
@@ -33,6 +33,7 @@ struct DetectedView: View {
                 carbs: item.carbs
             )
         })
+        self.imageUrl = imageUrl
     }
 
     var body: some View {
@@ -82,7 +83,8 @@ struct DetectedView: View {
                         totalProtein: totalProtein,
                         totalFats: totalFats,
                         totalCarbs: totalCarbs,
-                        ingredients: foodItems
+                        ingredients: foodItems,
+                        savedImageUrl: imageUrl
                     )
 
                     MealDataManager.shared.saveMeal(meal)

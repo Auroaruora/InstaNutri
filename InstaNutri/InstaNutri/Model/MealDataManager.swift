@@ -15,6 +15,7 @@ struct Meal: Codable {
     let totalFats: Double
     let totalCarbs: Double
     let ingredients: [FoodItem]
+    let savedImageUrl: URL?
 }
 
 class MealDataManager {
