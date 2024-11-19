@@ -19,6 +19,7 @@ struct FoodItem: Identifiable {
 
 struct DetectedView: View {
     @State private var foodItems: [FoodItem]
+    @State private var navigateToMainPage = false // Navigation state
 
     // Initialization with FoodItem array
     init(foodItems: [FoodItem]) {
@@ -26,46 +27,52 @@ struct DetectedView: View {
     }
 
     var body: some View {
-        VStack {
-            Text("Detected")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .padding(.top, 20)
+        NavigationStack {
+            VStack {
+                Text("Detected")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .padding(.top, 20)
 
-            if foodItems.isEmpty {
-                Text("No food items detected.")
-                    .foregroundColor(.gray)
-                    .padding()
-            } else {
-                ScrollView {
-                    VStack(spacing: 16) {
-                        ForEach($foodItems) { $item in
-                            FoodDetailView(foodItem: $item) {
-                                // Delete action
-                                foodItems.removeAll { $0.id == item.id }
+                if foodItems.isEmpty {
+                    Text("No food items detected.")
+                        .foregroundColor(.gray)
+                        .padding()
+                } else {
+                    ScrollView {
+                        VStack(spacing: 16) {
+                            ForEach($foodItems) { $item in
+                                FoodDetailView(foodItem: $item) {
+                                    foodItems.removeAll { $0.id == item.id }
+                                }
                             }
                         }
+                        .padding(.horizontal)
                     }
-                    .padding(.horizontal)
+                }
+
+                Button(action: {
+                    navigateToMainPage = true // Trigger navigation
+                }) {
+                    Text("Finish")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 20)
                 }
             }
-
-            Button(action: {
-                // Handle finish action (e.g., navigate back)
-            }) {
-                Text("Finish")
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 20)
+            .background(Color(UIColor.systemGray6))
+            .edgesIgnoringSafeArea(.all)
+            .navigationDestination(isPresented: $navigateToMainPage) {
+                MainPageView()
+                    .environmentObject(AuthViewModel()) // Provide the same environment object
+                    .environmentObject(HealthDataViewModel()) // Ensure consistency
             }
         }
-        .background(Color(UIColor.systemGray6))
-        .edgesIgnoringSafeArea(.all)
     }
 }
 
