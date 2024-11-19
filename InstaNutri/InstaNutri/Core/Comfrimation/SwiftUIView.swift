@@ -7,10 +7,9 @@
 
 import SwiftUI
 
-struct FoodItem: Identifiable {
-    let id = UUID()
+struct FoodItem: Codable {
     var name: String
-    var weight: Double // Changed to match FoodItems
+    var weight: Double
     var calories: Double
     var protein: Double
     var fats: Double
@@ -41,9 +40,9 @@ struct DetectedView: View {
                 } else {
                     ScrollView {
                         VStack(spacing: 16) {
-                            ForEach($foodItems) { $item in
-                                FoodDetailView(foodItem: $item) {
-                                    foodItems.removeAll { $0.id == item.id }
+                            ForEach(0..<foodItems.count, id: \.self) { index in
+                                FoodDetailView(foodItem: $foodItems[index]) {
+                                    foodItems.remove(at: index)
                                 }
                             }
                         }
@@ -52,7 +51,36 @@ struct DetectedView: View {
                 }
 
                 Button(action: {
+                    let now = Date()
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd"
+                    let date = dateFormatter.string(from: now)
+
+                    let timeFormatter = DateFormatter()
+                    timeFormatter.dateFormat = "HH:mm:ss"
+                    let time = timeFormatter.string(from: now)
+
+                    let totalCalories = foodItems.reduce(0) { $0 + $1.calories }
+                    let totalProtein = foodItems.reduce(0) { $0 + $1.protein }
+                    let totalFats = foodItems.reduce(0) { $0 + $1.fats }
+                    let totalCarbs = foodItems.reduce(0) { $0 + $1.carbs }
+
+                    let meal = Meal(
+                        date: date,
+                        time: time,
+                        totalCalories: totalCalories,
+                        totalProtein: totalProtein,
+                        totalFats: totalFats,
+                        totalCarbs: totalCarbs,
+                        ingredients: foodItems
+                    )
+
+                    MealDataManager.shared.saveMeal(meal)
+
+                    // Navigate back or show confirmation
+                    print("Meal saved!")
                     navigateToMainPage = true // Trigger navigation
+
                 }) {
                     Text("Finish")
                         .font(.headline)
