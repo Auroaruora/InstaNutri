@@ -53,6 +53,12 @@ struct ProfileView: View {
                                        title: "Enable Health Data",
                                        tintColor: .pink)
                     }
+                    
+                    NavigationLink(destination: SetupPage()) {
+                        SettingRowView(imageName: "person.crop.circle.fill",
+                                       title: "Setup Profile",
+                                       tintColor: .blue)
+                    }
                 }
                 
                 // Account Section

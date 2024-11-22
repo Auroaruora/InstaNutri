@@ -11,6 +11,8 @@ struct MainPageView: View {
     @State private var selectedDate: Date = Date()
     @State private var scrollViewDateRangeBase: Date = Date() // Base date for ScrollView date range
     @State private var isDatePickerPresented: Bool = false
+    
+    @AppStorage("recommendedCalorieIntake") var calorieIntake: Int = 2000
 
     var body: some View {
         ZStack {
@@ -147,7 +149,7 @@ struct MainPageView: View {
                                 .frame(width: 180, height: 180)
                             
                             Circle()
-                                .trim(from: 0.0, to: CGFloat(min(Double(totalCaloriesToday) / 2213.0, 1.0)))
+                                .trim(from: 0.0, to: CGFloat(min(Double(totalCaloriesToday) / Double(calorieIntake), 1.0)))
                                 .stroke(
                                     Color.red.opacity(0.5),
                                     style: StrokeStyle(lineWidth: 20, lineCap: .round)
@@ -165,7 +167,7 @@ struct MainPageView: View {
                                     .bold()
                                     .lineLimit(1)
                                 
-                                Text("of 2213 kcal")
+                                Text("of \(calorieIntake) kcal")
                                     .font(.system(size: 16))
                                     .foregroundColor(.gray)
                             }
