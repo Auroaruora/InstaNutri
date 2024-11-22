@@ -62,6 +62,7 @@ struct RegistrationView: View {
                                                        password: password,
                                                        fullname: fullname)
                     }
+                    //UserDefaults.standard.set(fullname, forKey: "UserFullName")
                 }label:{
                     HStack{
                         Text("SIGN UP")

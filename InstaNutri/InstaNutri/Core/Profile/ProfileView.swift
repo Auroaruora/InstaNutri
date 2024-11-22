@@ -56,7 +56,7 @@ struct ProfileView: View {
                     
                     NavigationLink(destination: SetupPage()) {
                         SettingRowView(imageName: "person.crop.circle.fill",
-                                       title: "Setup Profile",
+                                       title: "Ask AI for Calorie Recommendation",
                                        tintColor: .blue)
                     }
                 }

@@ -38,10 +38,11 @@ struct DetectedView: View {
             } else {
                 ScrollView {
                     VStack(spacing: 16) {
-                        ForEach(0..<foodItems.count, id: \.self) { index in
-                            FoodDetailView(foodItem: $foodItems[index]) {
-                                foodItems.remove(at: index)
-                            }
+                        ForEach(foodItems, id: \.name) { foodItem in
+                            FoodDetailView(
+                                foodItem: .constant(foodItem),
+                                deleteAction: { deleteFoodItem(foodItem) }
+                            )
                         }
                     }
                     .padding(.horizontal)
@@ -101,6 +102,12 @@ struct DetectedView: View {
         }
         .background(Color(UIColor.systemGray6))
         .edgesIgnoringSafeArea(.all)
+    }
+    
+    private func deleteFoodItem(_ foodItem: FoodItem) {
+        if let index = foodItems.firstIndex(where: { $0.name == foodItem.name }) {
+            foodItems.remove(at: index)
+        }
     }
 }
 

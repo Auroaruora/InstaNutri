@@ -31,19 +31,26 @@ struct SetupPage: View {
                 GoalSelectionView(selectedGoal: $goal, step: $step, gender: gender, weight: weight, height: height, activityLevel: activityLevel, onComplete: {
                     saveToJSON()
                     analyzeCalorieIntake()
-                    presentationMode.wrappedValue.dismiss() // Redirect to ProfileView
+                    presentationMode.wrappedValue.dismiss()
                 })
             }
         }
-        .animation(.easeInOut, value: step)
         .padding()
+        .background(Color(.systemGroupedBackground))
+        .animation(.easeInOut, value: step)
     }
     
     private func saveToJSON() {
         let userData: [String: Any] = [
             "gender": gender,
-            "weight": weight,
-            "height": height,
+            "weight": [
+                "value": weight,
+                "unit": "kg"
+            ],
+            "height": [
+                "value": height,
+                "unit": "cm"
+            ],
             "activityLevel": activityLevel,
             "goal": goal,
             "timestamp": Date().timeIntervalSince1970
@@ -53,12 +60,8 @@ struct SetupPage: View {
             let fileURL = documentDirectory.appendingPathComponent("userData.json")
             
             do {
-                // Serialize the user data into JSON
                 let data = try JSONSerialization.data(withJSONObject: userData, options: .prettyPrinted)
-                
-                // Write the data to the file, overwriting any existing file
                 try data.write(to: fileURL, options: .atomic)
-                
                 print("User data saved to JSON at \(fileURL.path)")
             } catch {
                 print("Failed to save user data: \(error.localizedDescription)")
@@ -72,12 +75,12 @@ struct GenderSelectionView: View {
     @Binding var step: Int
     
     var body: some View {
-        VStack {
+        VStack(spacing: 30) {
             Text("What's Your Gender?")
-                .font(.title)
-                .padding()
+                .font(.title2)
+                .fontWeight(.bold)
             
-            HStack {
+            HStack(spacing: 20) {
                 GenderButton(label: "Male", isSelected: selectedGender == "Male") {
                     selectedGender = "Male"
                 }
@@ -87,100 +90,140 @@ struct GenderSelectionView: View {
             }
             
             Spacer()
-            Button("Continue") {
-                if !selectedGender.isEmpty {
-                    step += 1
-                }
+            
+            ContinueButton(isEnabled: !selectedGender.isEmpty) {
+                step += 1
             }
-            .buttonStyle(.borderedProminent)
         }
+        .padding()
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color.white).shadow(radius: 5))
+        .padding()
     }
 }
 
 struct WeightSelectionView: View {
     @Binding var weight: Double
     @Binding var step: Int
-    
+
+    @State private var weightInput: String = ""
+
     var body: some View {
-        VStack {
-            Text("What's Your Weight?")
-                .font(.title)
-                .padding()
-            
-            Slider(value: $weight, in: 30...200, step: 0.5) {
-                Text("Weight")
-            }
-            Text("\(weight, specifier: "%.1f") Kg")
+        VStack(spacing: 30) {
+            Text("How much do you weigh?")
                 .font(.title2)
-                .padding()
-            
-            Spacer()
-            Button("Continue") {
-                step += 1
+                .fontWeight(.bold)
+                .padding(.top, 20)
+
+            // Weight Input with 'kg' Label
+            HStack {
+                TextField("Enter weight", text: $weightInput)
+                    .keyboardType(.decimalPad)
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                    .frame(maxWidth: .infinity)
+                    .onChange(of: weightInput) { newValue in
+                        // Validate and update weight
+                        if let weightValue = Double(newValue), weightValue >= 30.0, weightValue <= 200.0 {
+                            weight = weightValue
+                        }
+                    }
+
+                Text("kg")
+                    .font(.body)
+                    .foregroundColor(.gray)
+                    .padding(.leading, 5)
             }
-            .buttonStyle(.borderedProminent)
+            .padding(.horizontal)
+
+            Spacer()
+
+            // Continue Button
+            ContinueButton {
+                if let weightValue = Double(weightInput), weightValue >= 30.0, weightValue <= 200.0 {
+                    weight = weightValue
+                    step += 1
+                }
+            }
+            .disabled(weightInput.isEmpty || Double(weightInput) == nil)
+
         }
+        .padding()
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color.white).shadow(radius: 5))
+        .padding()
     }
 }
+
+
 
 struct HeightSelectionView: View {
     @Binding var height: Double
     @Binding var step: Int
-    
+
     var body: some View {
-        VStack {
-            Text("What's Your Height?")
-                .font(.title)
-                .padding()
-            
-            Slider(value: $height, in: 100...220, step: 1) {
-                Text("Height")
-            }
-            Text("\(height, specifier: "%.0f") cm")
+        VStack(spacing: 30) {
+            Text("How tall are you?")
                 .font(.title2)
-                .padding()
-            
+                .fontWeight(.bold)
+                .padding(.top, 20)
+
+            // Height Picker in cm
+            Picker("Height in cm", selection: $height) {
+                ForEach(100...220, id: \.self) { value in
+                    Text("\(value) cm").tag(Double(value))
+                }
+            }
+            .pickerStyle(.wheel)
+            .frame(height: 150)
+
             Spacer()
-            Button("Continue") {
+
+            ContinueButton {
                 step += 1
             }
-            .buttonStyle(.borderedProminent)
         }
+        .padding()
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color.white).shadow(radius: 5))
+        .padding()
     }
 }
+
 
 struct ActivityLevelView: View {
     @Binding var selectedActivity: String
     @Binding var step: Int
     
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             Text("What's Your Physical Activity Level?")
-                .font(.title)
-                .padding()
+                .font(.title2)
+                .fontWeight(.bold)
             
             ForEach(["Beginner", "Intermediate", "Advanced"], id: \.self) { level in
                 Button(action: {
                     selectedActivity = level
                 }) {
                     Text(level)
-                        .padding()
                         .frame(maxWidth: .infinity)
-                        .background(selectedActivity == level ? Color.blue : Color.gray)
-                        .foregroundColor(.white)
+                        .padding()
+                        .background(selectedActivity == level ? Color.blue : Color.gray.opacity(0.2))
+                        .foregroundColor(selectedActivity == level ? .white : .black)
                         .cornerRadius(10)
-                        .padding(.vertical, 5)
                 }
+                .padding(.horizontal, 10)
             }
             
             Spacer()
-            Button("Continue") {
-                if !selectedActivity.isEmpty {
-                    step += 1
-                }
+            
+            ContinueButton(isEnabled: !selectedActivity.isEmpty) {
+                step += 1
             }
-            .buttonStyle(.borderedProminent)
         }
+        .padding()
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color.white).shadow(radius: 5))
+        .padding()
     }
 }
 
@@ -194,33 +237,59 @@ struct GoalSelectionView: View {
     var onComplete: () -> Void
     
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             Text("What's Your Goal?")
-                .font(.title)
-                .padding()
+                .font(.title2)
+                .fontWeight(.bold)
             
             ForEach(["Maintain Current Weight", "Weight Loss", "Weight Gain"], id: \.self) { goal in
                 Button(action: {
                     selectedGoal = goal
                 }) {
                     Text(goal)
-                        .padding()
                         .frame(maxWidth: .infinity)
-                        .background(selectedGoal == goal ? Color.blue : Color.gray)
-                        .foregroundColor(.white)
+                        .padding()
+                        .background(selectedGoal == goal ? Color.blue : Color.gray.opacity(0.2))
+                        .foregroundColor(selectedGoal == goal ? .white : .black)
                         .cornerRadius(10)
-                        .padding(.vertical, 5)
                 }
+                .padding(.horizontal, 10)
             }
             
             Spacer()
-            Button("Done") {
+            
+            Button("Finish") {
                 if !selectedGoal.isEmpty {
                     onComplete()
                 }
             }
             .buttonStyle(.borderedProminent)
         }
+        .padding()
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color.white).shadow(radius: 5))
+        .padding()
+    }
+}
+
+
+struct ContinueButton: View {
+    var isEnabled: Bool = true
+    var action: () -> Void
+    
+    var body: some View {
+        Button(action: {
+            if isEnabled {
+                action()
+            }
+        }) {
+            Text("Continue")
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(isEnabled ? Color.green : Color.gray)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+        }
+        .disabled(!isEnabled)
     }
 }
 
@@ -276,10 +345,22 @@ func analyzeCalorieIntake() {
     let jsonBody: [String: Any] = [
         "model": "gpt-4o-mini",
         "messages": [
-            ["role": "system", "content": "You are a helpful assistant. Respond only with an integer value representing the recommended daily calorie intake, without any additional information."],
-            ["role": "user", "content": "Based on the following user data, calculate the recommended daily calorie intake as an integer: \(userData)"]
+            ["role": "system", "content": """
+            You are a helpful assistant that provides personalized nutritional recommendations. Based on user data, calculate and return the following:
+            - Recommended daily calorie intake as a realistic and personalized integer value, not a multiple of 100.
+            - Macronutrient breakdown including fat (grams), carbs (grams), and proteins (grams).
+            Respond in the following JSON format:
+            {
+                "calories": <integer>,
+                "fat": <grams>,
+                "carbs": <grams>,
+                "proteins": <grams>
+            }
+            Do not add any other information or text outside of this JSON format.
+            """],
+            ["role": "user", "content": "Based on the following user data, calculate the recommended daily intake:\n\(userData)"]
         ],
-        "max_tokens": 50
+        "max_tokens": 100
     ]
 
     guard let httpBody = try? JSONSerialization.data(withJSONObject: jsonBody, options: []) else {
@@ -309,16 +390,28 @@ func analyzeCalorieIntake() {
             if let jsonObject = try JSONSerialization.jsonObject(with: data) as? [String: Any],
                let choices = jsonObject["choices"] as? [[String: Any]],
                let message = choices.first?["message"] as? [String: Any],
-               let content = message["content"] as? String,
-               let calorieIntake = Int(content.trimmingCharacters(in: .whitespacesAndNewlines)) {
-                
-                // Successfully parsed calorie intake as an integer
+               let contentString = message["content"] as? String,
+               let contentData = contentString.data(using: .utf8),
+               let nutritionData = try JSONSerialization.jsonObject(with: contentData) as? [String: Any],
+               let calories = nutritionData["calories"] as? Int,
+               let fat = nutritionData["fat"] as? Int,
+               let carbs = nutritionData["carbs"] as? Int,
+               let proteins = nutritionData["proteins"] as? Int {
+
+                // Successfully parsed nutrient data
                 DispatchQueue.main.async {
-                    UserDefaults.standard.set(calorieIntake, forKey: "recommendedCalorieIntake")
-                    print("Recommended Calorie Intake: \(calorieIntake)")
+                    UserDefaults.standard.set(calories, forKey: "recommendedCalories")
+                    UserDefaults.standard.set(fat, forKey: "recommendedFat")
+                    UserDefaults.standard.set(carbs, forKey: "recommendedCarbs")
+                    UserDefaults.standard.set(proteins, forKey: "recommendedProteins")
+                    print("Recommended Nutritional Intake:")
+                    print("Calories: \(calories) kcal")
+                    print("Fat: \(fat) g")
+                    print("Carbs: \(carbs) g")
+                    print("Proteins: \(proteins) g")
                 }
             } else {
-                print("Failed to parse calorie intake from API response")
+                print("Failed to parse nutritional data from API response")
             }
         } catch {
             print("Failed to decode API response: \(error)")

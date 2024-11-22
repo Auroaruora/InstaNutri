@@ -12,7 +12,10 @@ struct MainPageView: View {
     @State private var scrollViewDateRangeBase: Date = Date() // Base date for ScrollView date range
     @State private var isDatePickerPresented: Bool = false
     
-    @AppStorage("recommendedCalorieIntake") var calorieIntake: Int = 2000
+    @AppStorage("recommendedCalories") var calorieIntake: Int = 2000
+    @AppStorage("recommendedFat") var recommendedFat: Int = 67
+    @AppStorage("recommendedCarbs") var recommendedCarbs: Int = 250
+    @AppStorage("recommendedProteins") var recommendedProteins: Int = 100
     
     //@State private var navigateToCamera = false
     var body: some View {
@@ -38,10 +41,11 @@ struct MainPageView: View {
                     }
                     
                     VStack(alignment: .leading) {
+                        let user = viewModel.currentUser
                         Text("Welcome")
                             .font(.subheadline)
                             .foregroundColor(.gray)
-                        Text("CU Student")
+                        Text(user!.fullname)
                             .font(.title2)
                             .bold()
                     }
@@ -134,46 +138,95 @@ struct MainPageView: View {
                             .padding()
                         }
                     }
-                    .padding(.horizontal)
+                    .padding()
+                    .background(Color(UIColor.systemGray6)) // Background color
+                    .cornerRadius(15) // Rounded corners
+                    .shadow(color: Color.gray.opacity(0.2), radius: 5, x: 0, y: 3) // Shadow effect
+                    .padding(5)
+                    .padding(.horizontal, 15)
+
                     
                     Spacer() // Optional spacer for alignment
                     
                     // Calorie Gauge
                     VStack {
-                        ZStack {
-                            Circle()
-                                .stroke(
-                                    Color.gray.opacity(0.3),
-                                    style: StrokeStyle(lineWidth: 20, lineCap: .round)
-                                )
-                                .rotationEffect(.degrees(-90))
-                                .frame(width: 180, height: 180)
-                            
-                            Circle()
-                                .trim(from: 0.0, to: CGFloat(min(Double(totalCaloriesToday) / Double(calorieIntake), 1.0)))
-                                .stroke(
-                                    Color.red.opacity(0.5),
-                                    style: StrokeStyle(lineWidth: 20, lineCap: .round)
-                                )
-                                .rotationEffect(.degrees(-90))
-                                .frame(width: 180, height: 180)
-                            
-                            VStack {
-                                Image(systemName: "flame.fill")
-                                    .foregroundColor(.red)
-                                    .font(.system(size: 30))
-                                
-                                Text("\(totalCaloriesToday) Kcal")
-                                    .font(.system(size: 30))
-                                    .bold()
-                                    .lineLimit(1)
-                                
-                                Text("of \(calorieIntake) kcal")
-                                    .font(.system(size: 16))
-                                    .foregroundColor(.gray)
+                        HStack {
+                            // Circle Gauge closer to the center
+                            ZStack {
+                                Circle()
+                                    .stroke(
+                                        Color.gray.opacity(0.3),
+                                        style: StrokeStyle(lineWidth: 15, lineCap: .round)
+                                    )
+                                    .rotationEffect(.degrees(-90))
+                                    .frame(width: 150, height: 150) // Smaller size
+
+                                Circle()
+                                    .trim(from: 0.0, to: CGFloat(min(Double(totalCaloriesToday) / Double(calorieIntake), 1.0)))
+                                    .stroke(
+                                        Color.red.opacity(0.5),
+                                        style: StrokeStyle(lineWidth: 15, lineCap: .round)
+                                    )
+                                    .rotationEffect(.degrees(-90))
+                                    .frame(width: 150, height: 150)
+
+                                VStack {
+                                    Image(systemName: "flame.fill")
+                                        .foregroundColor(.red)
+                                        .font(.system(size: 25))
+
+                                    Text("\(totalCaloriesToday) Kcal")
+                                        .font(.system(size: 25))
+                                        .bold()
+                                        .lineLimit(1)
+
+                                    Text("of \(calorieIntake) kcal")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                            .padding(.trailing, 20) // Space between the circle and text
+
+                            // Macronutrients on the Right
+                            VStack(alignment: .leading, spacing: 10) {
+                                VStack(alignment: .leading) {
+                                    Text("\(totalProteinToday)g / \(recommendedProteins)g")
+                                        .font(.system(size: 16))
+                                        .bold()
+                                        .foregroundColor(.green)
+                                    Text("Protein")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(.gray)
+                                }
+
+                                VStack(alignment: .leading) {
+                                    Text("\(totalFatsToday)g / \(recommendedFat)g")
+                                        .font(.system(size: 16))
+                                        .bold()
+                                        .foregroundColor(.red)
+                                    Text("Fats")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(.gray)
+                                }
+
+                                VStack(alignment: .leading) {
+                                    Text("\(totalCarbsToday)g / \(recommendedCarbs)g")
+                                        .font(.system(size: 16))
+                                        .bold()
+                                        .foregroundColor(.yellow)
+                                    Text("Carbs")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(.gray)
+                                }
                             }
                         }
-                        .padding(.top, 20)
+                        .frame(maxWidth: .infinity, maxHeight: 150) // Ensure consistent height and center alignment
+                        .padding()
+                        .background(Color(UIColor.systemGray6))
+                        .cornerRadius(15)
+                        .shadow(color: Color.gray.opacity(0.2), radius: 5, x: 0, y: 3)
+                        .padding(5)
+                        .padding(.horizontal, 15)
                     }
 
                     // Scrollable Food List
@@ -185,7 +238,6 @@ struct MainPageView: View {
                                 }
                             }
                         }
-                        .padding(.horizontal)
                     }
                     .padding(.bottom, 80)
                 }
@@ -240,6 +292,18 @@ struct MainPageView: View {
     
     private var totalCaloriesToday: Int {
         mealItems.reduce(0) { $0 + Int($1.totalCalories) }
+    }
+    
+    private var totalProteinToday: Int {
+        mealItems.reduce(0) { $0 + Int($1.totalProtein) }
+    }
+
+    private var totalFatsToday: Int {
+        mealItems.reduce(0) { $0 + Int($1.totalFats) }
+    }
+
+    private var totalCarbsToday: Int {
+        mealItems.reduce(0) { $0 + Int($1.totalCarbs) }
     }
     
     private func loadMeals() {
@@ -315,7 +379,11 @@ struct mealItemView: View {
             }
         }
         .padding()
-        .background(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.3), lineWidth: 1))
+        .background(Color(UIColor.systemGray6)) // Background color
+        .cornerRadius(15) // Rounded corners
+        .shadow(color: Color.gray.opacity(0.2), radius: 5, x: 0, y: 3) // Shadow effect
+        .padding(5)
+        .padding(.horizontal, 15)
     }
 }
 

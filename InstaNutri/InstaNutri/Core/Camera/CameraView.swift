@@ -8,6 +8,9 @@ struct CameraView: View {
     @State private var isAnalyzing = false
     @State private var foodItems: [FoodItems] = []
     
+    @State private var isRetake = true
+
+    
     let onFinish: () -> Void
     @State private var navigateToDetectedView = false
 
@@ -29,7 +32,9 @@ struct CameraView: View {
                         .padding()
 
                     Button(action: {
+                        self.isRetake = false
                         saveImage()
+                        self.isAnalyzing = true
                         analyzeImage(image: image)
                     }) {
                         Text("Save for Analysis")
@@ -40,6 +45,11 @@ struct CameraView: View {
                             .cornerRadius(10)
                     }
                     .padding()
+                    
+                    if isAnalyzing {
+                        ProgressView("Please Wait... Analyzing...")
+                            .padding()
+                    }
 
                     if let path = savedImagePath {
                         Text("Image saved at: \(path.lastPathComponent)")
@@ -48,13 +58,15 @@ struct CameraView: View {
                             .padding()
                     }
 
-                    Button(action: resetCamera) {
-                        Text("Retake")
-                            .font(.headline)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                    if isRetake {
+                        Button(action: resetCamera) {
+                            Text("Retake")
+                                .font(.headline)
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
                     }
                 }
             } else {
@@ -81,18 +93,7 @@ struct CameraView: View {
             ImagePicker(image: $capturedImage, isAnalyzing: $isAnalyzing)
         }
         
-//        if navigateToDetectedView {
-//            NavigationLink(
-//                destination: DetectedView(
-//                    foodItems: mapFoodItemsToFoodItem(foodItems: foodItems),
-//                    imageUrl: savedImagePath
-//                ),
-//                isActive: $navigateToDetectedView
-//            ) {
-//                EmptyView()
-//            }
-//            .hidden() // Keeps the navigation link invisible
-//        }
+        
         NavigationLink(
             destination: navigateToDetectedView ? DetectedView(
                 onFinish: {
@@ -197,15 +198,17 @@ struct CameraView: View {
         }
         
         request.httpBody = httpBody
-
+        
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("API error: \(error)")
+                isAnalyzing = false
                 return
             }
 
             guard let data = data else {
                 print("No data received from API")
+                isAnalyzing = false
                 return
             }
 
@@ -227,6 +230,7 @@ struct CameraView: View {
 
                     DispatchQueue.main.async {
                         self.foodItems = decodedResponse.food_items
+                        self.isAnalyzing = false
                         self.navigateToDetectedView = true
                         
 
@@ -246,6 +250,7 @@ struct CameraView: View {
                 }
             } catch {
                 print("Failed to decode API response: \(error)")
+                isAnalyzing = false
             }
         }.resume()
     }
@@ -297,7 +302,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             if let uiImage = info[.originalImage] as? UIImage {
                 parent.image = uiImage
-                parent.isAnalyzing = true
+                //parent.isAnalyzing = true
             }
             picker.dismiss(animated: true)
         }
