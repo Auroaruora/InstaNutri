@@ -17,97 +17,90 @@ struct FoodItem: Codable {
 }
 
 struct DetectedView: View {
-    @State private var navigateToMainPage = false // Navigation state
     let viewModel = HealthDataViewModel()
+    
+    let onFinish: () -> Void
 
     @State var foodItems: [FoodItem]
     let imageUrl: URL?
 
     var body: some View {
-        NavigationStack {
-            VStack {
-                Text("Detected")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .padding(.top, 20)
+        VStack {
+            Text("Detected")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .padding(.top, 20)
 
-                if foodItems.isEmpty {
-                    Text("No food items detected.")
-                        .foregroundColor(.gray)
-                        .padding()
-                } else {
-                    ScrollView {
-                        VStack(spacing: 16) {
-                            ForEach(0..<foodItems.count, id: \.self) { index in
-                                FoodDetailView(foodItem: $foodItems[index]) {
-                                    foodItems.remove(at: index)
-                                }
+            if foodItems.isEmpty {
+                Text("No food items detected.")
+                    .foregroundColor(.gray)
+                    .padding()
+            } else {
+                ScrollView {
+                    VStack(spacing: 16) {
+                        ForEach(0..<foodItems.count, id: \.self) { index in
+                            FoodDetailView(foodItem: $foodItems[index]) {
+                                foodItems.remove(at: index)
                             }
                         }
-                        .padding(.horizontal)
                     }
-                }
-
-                Button(action: {
-                    let now = Date()
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd"
-                    let date = dateFormatter.string(from: now)
-
-                    let timeFormatter = DateFormatter()
-                    timeFormatter.dateFormat = "HH:mm:ss"
-                    let time = timeFormatter.string(from: now)
-
-                    let totalCalories = foodItems.reduce(0) { $0 + $1.calories }
-                    let totalProtein = foodItems.reduce(0) { $0 + $1.protein }
-                    let totalFats = foodItems.reduce(0) { $0 + $1.fats }
-                    let totalCarbs = foodItems.reduce(0) { $0 + $1.carbs }
-
-                    let meal = Meal(
-                        date: date,
-                        time: time,
-                        totalCalories: totalCalories,
-                        totalProtein: totalProtein,
-                        totalFats: totalFats,
-                        totalCarbs: totalCarbs,
-                        ingredients: foodItems,
-                        savedImageUrl: imageUrl
-                    )
-
-                    MealDataManager.shared.saveMeal(meal)
-
-                    // Navigate back or show confirmation
-                    print("Meal saved!")
-                    viewModel.writeMealData(meal) { success, error in
-                        if success {
-                            print("Food item successfully written to Health app.")
-                        } else if let error = error {
-                            print("Error writing food item: \(error.localizedDescription)")
-                            // Ignore the failure and continue
-                        }
-                    }
-                    navigateToMainPage = true // Trigger navigation
-
-                }) {
-                    Text("Finish")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 20)
+                    .padding(.horizontal)
                 }
             }
-            .background(Color(UIColor.systemGray6))
-            .edgesIgnoringSafeArea(.all)
-            .navigationDestination(isPresented: $navigateToMainPage) {
-                MainPageView()
-                    .environmentObject(AuthViewModel()) // Provide the same environment object
-                    .environmentObject(HealthDataViewModel()) // Ensure consistency
+
+            Button(action: {
+                let now = Date()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let date = dateFormatter.string(from: now)
+
+                let timeFormatter = DateFormatter()
+                timeFormatter.dateFormat = "HH:mm:ss"
+                let time = timeFormatter.string(from: now)
+
+                let totalCalories = foodItems.reduce(0) { $0 + $1.calories }
+                let totalProtein = foodItems.reduce(0) { $0 + $1.protein }
+                let totalFats = foodItems.reduce(0) { $0 + $1.fats }
+                let totalCarbs = foodItems.reduce(0) { $0 + $1.carbs }
+
+                let meal = Meal(
+                    date: date,
+                    time: time,
+                    totalCalories: totalCalories,
+                    totalProtein: totalProtein,
+                    totalFats: totalFats,
+                    totalCarbs: totalCarbs,
+                    ingredients: foodItems,
+                    savedImageUrl: imageUrl
+                )
+
+                MealDataManager.shared.saveMeal(meal)
+
+                // Navigate back or show confirmation
+                print("Meal saved!")
+                viewModel.writeMealData(meal) { success, error in
+                    if success {
+                        print("Food item successfully written to Health app.")
+                    } else if let error = error {
+                        print("Error writing food item: \(error.localizedDescription)")
+                        // Ignore the failure and continue
+                    }
+                }
+                onFinish()
+            }) {
+                Text("Finish")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 20)
             }
         }
+        .background(Color(UIColor.systemGray6))
+        .edgesIgnoringSafeArea(.all)
     }
 }
 

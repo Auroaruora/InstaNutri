@@ -6,8 +6,11 @@ struct CameraView: View {
     @State private var capturedImage: UIImage? = nil
     @State private var savedImagePath: URL? = nil
     @State private var isAnalyzing = false
-    @State private var navigateToDetectedView = false
     @State private var foodItems: [FoodItems] = []
+    
+    let onFinish: () -> Void
+    @State private var navigateToDetectedView = false
+
 
     var body: some View {
         VStack {
@@ -92,6 +95,10 @@ struct CameraView: View {
 //        }
         NavigationLink(
             destination: navigateToDetectedView ? DetectedView(
+                onFinish: {
+                    navigateToDetectedView = false // Reset navigation to go back to MainPage
+                    onFinish()
+                },
                 foodItems: mapFoodItemsToFoodItem(foodItems: foodItems),
                 imageUrl: savedImagePath
             ) : nil,
@@ -221,6 +228,7 @@ struct CameraView: View {
                     DispatchQueue.main.async {
                         self.foodItems = decodedResponse.food_items
                         self.navigateToDetectedView = true
+                        
 
                         // Print the decoded object
                         print("Decoded Food Items:")
@@ -300,13 +308,13 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
 }
 
-struct CameraView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            CameraView()
-        }
-    }
-}
+//struct CameraView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationView {
+//            CameraView()
+//        }
+//    }
+//}
 
 
 struct FoodItems: Codable, Identifiable {

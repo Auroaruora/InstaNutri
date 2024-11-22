@@ -13,7 +13,8 @@ struct MainPageView: View {
     @State private var isDatePickerPresented: Bool = false
     
     @AppStorage("recommendedCalorieIntake") var calorieIntake: Int = 2000
-
+    
+    //@State private var navigateToCamera = false
     var body: some View {
         ZStack {
             VStack {
@@ -194,7 +195,9 @@ struct MainPageView: View {
             VStack {
                 Spacer()
                 NavigationLink(
-                    destination: CameraView(),
+                    destination: CameraView(onFinish: {
+                        navigateToCamera = false // Return to MainPage when finished
+                    }),
                     isActive: $navigateToCamera
                 ) {
                     EmptyView()
