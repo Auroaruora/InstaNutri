@@ -31,8 +31,9 @@ struct SetupPage: View {
                 GoalSelectionView(selectedGoal: $goal, step: $step, gender: gender, weight: weight, height: height, activityLevel: activityLevel, onComplete: {
                     saveToJSON()
                     analyzeCalorieIntake()
-                    presentationMode.wrappedValue.dismiss()
                 })
+            } else if step == 5 {
+                ConfirmationView()
             }
         }
         .padding()
@@ -69,6 +70,50 @@ struct SetupPage: View {
         }
     }
 }
+
+struct ConfirmationView: View {
+    @Environment(\.presentationMode) var presentationMode
+
+    var body: some View {
+        ZStack {
+            Color(.systemGroupedBackground) // Fixed background color
+                .ignoresSafeArea() // Ensures it fills the entire screen
+            
+            VStack(spacing: 20) {
+                Text("Nutrition Updated!")
+                    .font(.title)
+                    .fontWeight(.bold)
+                
+                Text("Your recommended nutrition has been updated on the home screen.")
+                    .multilineTextAlignment(.center)
+                    .padding()
+                
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Close")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                }
+                .padding(.horizontal)
+            }
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(Color.white)
+                    .shadow(radius: 5)
+            )
+            .padding()
+        }
+    }
+}
+
+
+
 
 struct GenderSelectionView: View {
     @Binding var selectedGender: String
@@ -242,6 +287,7 @@ struct GoalSelectionView: View {
                 .font(.title2)
                 .fontWeight(.bold)
             
+            // Display goal options
             ForEach(["Maintain Current Weight", "Weight Loss", "Weight Gain"], id: \.self) { goal in
                 Button(action: {
                     selectedGoal = goal
@@ -258,12 +304,15 @@ struct GoalSelectionView: View {
             
             Spacer()
             
+            // Finish button to complete the selection and trigger the `onComplete` closure
             Button("Finish") {
                 if !selectedGoal.isEmpty {
                     onComplete()
+                    step += 1 // Move to the next step (confirmation view)
                 }
             }
             .buttonStyle(.borderedProminent)
+            .disabled(selectedGoal.isEmpty) // Disable button if no goal is selected
         }
         .padding()
         .background(RoundedRectangle(cornerRadius: 15).fill(Color.white).shadow(radius: 5))
