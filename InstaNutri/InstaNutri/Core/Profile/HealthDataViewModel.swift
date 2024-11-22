@@ -70,4 +70,30 @@ class HealthDataViewModel: ObservableObject {
             }
         }
     }
+    
+    func writeMealData(_ meal: Meal, completion: @escaping (Bool, Error?) -> Void) {
+        guard let dietaryEnergy = HKQuantityType.quantityType(forIdentifier: .dietaryEnergyConsumed),
+              let dietaryProtein = HKQuantityType.quantityType(forIdentifier: .dietaryProtein),
+              let dietaryFatTotal = HKQuantityType.quantityType(forIdentifier: .dietaryFatTotal),
+              let dietaryCarbohydrates = HKQuantityType.quantityType(forIdentifier: .dietaryCarbohydrates) else {
+            completion(false, NSError(domain: "HealthKitError", code: 1, userInfo: [NSLocalizedDescriptionKey: "HealthKit data types are unavailable."]))
+            return
+        }
+
+        let calorieQuantity = HKQuantity(unit: .kilocalorie(), doubleValue: meal.totalCalories)
+        let proteinQuantity = HKQuantity(unit: .gram(), doubleValue: meal.totalProtein)
+        let fatQuantity = HKQuantity(unit: .gram(), doubleValue: meal.totalFats)
+        let carbQuantity = HKQuantity(unit: .gram(), doubleValue: meal.totalCarbs)
+
+        let now = Date()
+
+        let calorieSample = HKQuantitySample(type: dietaryEnergy, quantity: calorieQuantity, start: now, end: now)
+        let proteinSample = HKQuantitySample(type: dietaryProtein, quantity: proteinQuantity, start: now, end: now)
+        let fatSample = HKQuantitySample(type: dietaryFatTotal, quantity: fatQuantity, start: now, end: now)
+        let carbSample = HKQuantitySample(type: dietaryCarbohydrates, quantity: carbQuantity, start: now, end: now)
+
+        healthStore.save([calorieSample, proteinSample, fatSample, carbSample]) { success, error in
+            completion(success, error)
+        }
+    }
 }

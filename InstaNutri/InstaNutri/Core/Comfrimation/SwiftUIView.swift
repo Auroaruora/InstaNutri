@@ -18,6 +18,7 @@ struct FoodItem: Codable {
 
 struct DetectedView: View {
     @State private var navigateToMainPage = false // Navigation state
+    let viewModel = HealthDataViewModel()
 
     @State var foodItems: [FoodItem]
     let imageUrl: URL?
@@ -77,6 +78,14 @@ struct DetectedView: View {
 
                     // Navigate back or show confirmation
                     print("Meal saved!")
+                    viewModel.writeMealData(meal) { success, error in
+                        if success {
+                            print("Food item successfully written to Health app.")
+                        } else if let error = error {
+                            print("Error writing food item: \(error.localizedDescription)")
+                            // Ignore the failure and continue
+                        }
+                    }
                     navigateToMainPage = true // Trigger navigation
 
                 }) {
@@ -263,6 +272,8 @@ struct EditWeightView: View {
         .padding()
     }
 }
+
+
 
 
 // Preview for DetectedView
