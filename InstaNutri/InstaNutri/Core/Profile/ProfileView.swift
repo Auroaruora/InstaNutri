@@ -59,6 +59,11 @@ struct ProfileView: View {
                                        title: "Ask AI for Calorie Recommendation",
                                        tintColor: .blue)
                     }
+                    NavigationLink(destination: AdviceSwiftUIView()) {
+                                            SettingRowView(imageName: "person.crop.circle.fill",
+                                                           title: "Ask AI for Nutrition Advice",
+                                                           tintColor: .blue)
+                                        }
                 }
                 
                 // Account Section

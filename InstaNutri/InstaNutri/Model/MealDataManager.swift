@@ -56,4 +56,54 @@ class MealDataManager {
             print("Error saving meal data: \(error.localizedDescription)")
         }
     }
+
+}
+
+extension MealDataManager {
+    func loadMealsForLast7Days() -> [Meal]? {
+        guard let url = fileURL else {
+            print("File URL is nil.")
+            return nil
+        }
+
+        do {
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            var meals = try decoder.decode([Meal].self, from: data)
+
+            // Create a DateFormatter to parse "yyyy-MM-dd"
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+
+            // Get the current date and calculate the date 7 days ago
+            let calendar = Calendar.current
+            let today = calendar.startOfDay(for: Date()) // Start of today's day
+            guard let sevenDaysAgo = calendar.date(byAdding: .day, value: -7, to: today) else {
+                print("Failed to calculate the date 7 days ago.")
+                return nil
+            }
+
+            // Filter meals from the last 7 days
+            meals = meals.filter {
+                if let mealDate = dateFormatter.date(from: $0.date) {
+                    return mealDate >= sevenDaysAgo && mealDate <= today
+                } else {
+                    print("Invalid date format for meal: \($0.date)")
+                    return false
+                }
+            }
+
+            // Ensure there are at least 6 meals in the last 7 days
+            guard meals.count >= 6 else {
+                print("Not enough meals in the past 7 days for analysis.")
+                return nil
+            }
+
+            return meals
+        } catch {
+            print("Error loading meal data: \(error.localizedDescription)")
+            return nil
+        }
+    }
 }
