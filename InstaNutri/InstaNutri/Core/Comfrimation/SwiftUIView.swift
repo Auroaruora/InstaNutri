@@ -7,47 +7,87 @@
 
 import SwiftUI
 
-struct FoodItem: Identifiable {
-    let id = UUID()
-    let name: String
-    let calories: Int
-    var weight: String
-    let protein: Int
-    let fats: Int
-    let carbs: Int
+struct FoodItem: Codable {
+    var name: String
+    var weight: Double
+    var calories: Double
+    var protein: Double
+    var fats: Double
+    var carbs: Double
 }
 
 struct DetectedView: View {
-    @State private var foodItems = [
-        FoodItem(name: "Tofu", calories: 100, weight: "100g", protein: 8, fats: 5, carbs: 2),
-        FoodItem(name: "Edamame", calories: 100, weight: "100g", protein: 11, fats: 5, carbs: 9),
-        FoodItem(name: "Hard-Boiled Egg", calories: 70, weight: "50g", protein: 6, fats: 5, carbs: 1),
-        FoodItem(name: "Cherry Tomatoes", calories: 10, weight: "50g", protein: 1, fats: 0, carbs: 2),
-        FoodItem(name: "Corn Kernels", calories: 25, weight: "50g", protein: 1, fats: 0, carbs: 6),
-        FoodItem(name: "Cucumbers", calories: 5, weight: "50g", protein: 0, fats: 0, carbs: 1)
-    ]
+    let viewModel = HealthDataViewModel()
     
+    let onFinish: () -> Void
+
+    @State var foodItems: [FoodItem]
+    let imageUrl: URL?
+
     var body: some View {
         VStack {
             Text("Detected")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-                .padding(.top, 60)
-            
-            ScrollView {
-                VStack(spacing: 16) {
-                    ForEach($foodItems) { $item in
-                        FoodDetailView(foodItem: $item) {
-                            foodItems.removeAll { $0.id == item.id }
+                .padding(.top, 20)
+
+            if foodItems.isEmpty {
+                Text("No food items detected.")
+                    .foregroundColor(.gray)
+                    .padding()
+            } else {
+                ScrollView {
+                    VStack(spacing: 16) {
+                        ForEach(foodItems, id: \.name) { foodItem in
+                            FoodDetailView(
+                                foodItem: .constant(foodItem),
+                                deleteAction: { deleteFoodItem(foodItem) }
+                            )
                         }
                     }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
-                .padding(.top, 20)
             }
-            
+
             Button(action: {
-                // Add finish action here
+                let now = Date()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let date = dateFormatter.string(from: now)
+
+                let timeFormatter = DateFormatter()
+                timeFormatter.dateFormat = "HH:mm:ss"
+                let time = timeFormatter.string(from: now)
+
+                let totalCalories = foodItems.reduce(0) { $0 + $1.calories }
+                let totalProtein = foodItems.reduce(0) { $0 + $1.protein }
+                let totalFats = foodItems.reduce(0) { $0 + $1.fats }
+                let totalCarbs = foodItems.reduce(0) { $0 + $1.carbs }
+
+                let meal = Meal(
+                    date: date,
+                    time: time,
+                    totalCalories: totalCalories,
+                    totalProtein: totalProtein,
+                    totalFats: totalFats,
+                    totalCarbs: totalCarbs,
+                    ingredients: foodItems,
+                    savedImageUrl: imageUrl
+                )
+
+                MealDataManager.shared.saveMeal(meal)
+
+                // Navigate back or show confirmation
+                print("Meal saved!")
+                viewModel.writeMealData(meal) { success, error in
+                    if success {
+                        print("Food item successfully written to Health app.")
+                    } else if let error = error {
+                        print("Error writing food item: \(error.localizedDescription)")
+                        // Ignore the failure and continue
+                    }
+                }
+                onFinish()
             }) {
                 Text("Finish")
                     .font(.headline)
@@ -56,14 +96,21 @@ struct DetectedView: View {
                     .background(Color.blue)
                     .foregroundColor(.white)
                     .cornerRadius(10)
-                    .padding(.horizontal, 40)
+                    .padding(.horizontal, 20)
                     .padding(.bottom, 20)
             }
         }
         .background(Color(UIColor.systemGray6))
         .edgesIgnoringSafeArea(.all)
     }
+    
+    private func deleteFoodItem(_ foodItem: FoodItem) {
+        if let index = foodItems.firstIndex(where: { $0.name == foodItem.name }) {
+            foodItems.remove(at: index)
+        }
+    }
 }
+
 
 // Define the FoodDetailView struct only once
 struct FoodDetailView: View {
@@ -78,21 +125,21 @@ struct FoodDetailView: View {
             VStack(alignment: .leading, spacing: 5) {
                 Text(foodItem.name)
                     .font(.headline)
-                
+
                 HStack {
                     Image(systemName: "flame.fill")
                         .foregroundColor(.orange)
-                    Text("\(foodItem.calories) kcal - \(foodItem.weight)")
+                    Text("\(Int(foodItem.calories)) kcal - \(Int(foodItem.weight))g") // Display integers only
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
 
                 HStack {
-                    NutrientBar(color: .green, value: foodItem.protein, label: "Protein")
+                    NutrientBar(color: .green, value: Int(foodItem.protein), label: "Protein")
                     Spacer()
-                    NutrientBar(color: .red, value: foodItem.fats, label: "Fats")
+                    NutrientBar(color: .red, value: Int(foodItem.fats), label: "Fats")
                     Spacer()
-                    NutrientBar(color: .yellow, value: foodItem.carbs, label: "Carbs")
+                    NutrientBar(color: .yellow, value: Int(foodItem.carbs), label: "Carbs")
                 }
             }
             .padding(.leading, 8)
@@ -123,7 +170,7 @@ struct FoodDetailView: View {
                 }
 
                 Spacer()
-                
+
                 Button(action: {
                     showDeleteAlert = true
                 }) {
@@ -150,6 +197,8 @@ struct FoodDetailView: View {
         .padding(.horizontal)
     }
 }
+
+
 
 // Reusable NutrientBar View
 struct NutrientBar: View {
@@ -182,14 +231,32 @@ struct EditWeightView: View {
     @Binding var foodItem: FoodItem
     @Environment(\.presentationMode) var presentationMode // To dismiss the sheet
 
+    // Computed property to bind the weight as a string
+    private var weightBinding: Binding<String> {
+        Binding<String>(
+            get: { String(Int(foodItem.weight)) }, // Display weight as an integer
+            set: { newValue in
+                if let newWeight = Double(newValue) {
+                    let ratio = newWeight / foodItem.weight // Calculate the ratio
+                    foodItem.weight = newWeight
+                    foodItem.calories *= ratio
+                    foodItem.protein *= ratio
+                    foodItem.fats *= ratio
+                    foodItem.carbs *= ratio
+                }
+            }
+        )
+    }
+
     var body: some View {
         VStack(spacing: 20) {
             Text("Edit Weight for \(foodItem.name)")
                 .font(.title2)
                 .padding()
 
-            TextField("Enter new weight", text: $foodItem.weight)
+            TextField("Enter new weight", text: weightBinding) // Use the computed binding
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .keyboardType(.decimalPad)
                 .padding()
 
             Button("Save") {
@@ -206,10 +273,13 @@ struct EditWeightView: View {
     }
 }
 
+
+
+
 // Preview for DetectedView
-struct DetectedView_Previews: PreviewProvider {
-    static var previews: some View {
-        DetectedView()
-    }
-}
+//struct DetectedView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DetectedView()
+//    }
+//}
 
