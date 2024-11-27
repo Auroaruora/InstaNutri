@@ -72,7 +72,7 @@ struct RegistrationView: View {
                     .foregroundStyle(.white)
                     .frame(width:UIScreen.main.bounds.width-32,height:48)
                 }
-                .background(Color(.systemBlue))
+                .background(Color(UIColor(red: 125 / 255.0, green: 185 / 255.0, blue: 143 / 255.0, alpha: 1.0)))
                 .cornerRadius(10)
                 .padding(.top,24)
                 
@@ -83,7 +83,9 @@ struct RegistrationView: View {
                 }label:{
                     HStack(spacing:3){
                         Text("Already have an account?")
+                            .foregroundColor(Color(UIColor(red: 125 / 255.0, green: 185 / 255.0, blue: 143 / 255.0, alpha: 1.0)))
                         Text("Sign in")
+                            .foregroundColor(Color(UIColor(red: 125 / 255.0, green: 185 / 255.0, blue: 143 / 255.0, alpha: 1.0)))
                             .fontWeight(.bold)
                     }
                     .font(.system(size:14))

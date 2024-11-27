@@ -57,12 +57,14 @@ struct ProfileView: View {
                     NavigationLink(destination: SetupPage()) {
                         SettingRowView(imageName: "person.crop.circle.fill",
                                        title: "Ask AI for Calorie Recommendation",
-                                       tintColor: .blue)
+                                       tintColor: Color(UIColor(red: 154 / 255.0, green: 194 / 255.0, blue: 208 / 255.0, alpha: 1.0))
+)
                     }
                     NavigationLink(destination: AdviceSwiftUIView()) {
                                             SettingRowView(imageName: "person.crop.circle.fill",
                                                            title: "Ask AI for Nutrition Advice",
-                                                           tintColor: .blue)
+                                                           tintColor: Color(UIColor(red: 154 / 255.0, green: 194 / 255.0, blue: 208 / 255.0, alpha: 1.0))
+)
                                         }
                 }
                 
@@ -75,7 +77,7 @@ struct ProfileView: View {
                     } label: {
                         SettingRowView(imageName: "arrow.left.circle.fill",
                                        title: "Sign Out",
-                                       tintColor: .red)
+                                       tintColor: Color(UIColor(red: 255 / 255.0, green: 93 / 255.0, blue: 55 / 255.0, alpha: 1.0)))
                     }
                     
                     Button {
@@ -83,7 +85,7 @@ struct ProfileView: View {
                     } label: {
                         SettingRowView(imageName: "xmark.circle.fill",
                                        title: "Delete Account",
-                                       tintColor: .red)
+                                       tintColor: Color(UIColor(red: 255 / 255.0, green: 93 / 255.0, blue: 55 / 255.0, alpha: 1.0)))
                     }
                 }
             }

@@ -96,7 +96,7 @@ struct ConfirmationView: View {
                         .foregroundColor(.white)
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.blue)
+                        .background(Color(UIColor(red: 125 / 255.0, green: 185 / 255.0, blue: 143 / 255.0, alpha: 1.0)))
                         .cornerRadius(10)
                 }
                 .padding(.horizontal)
@@ -104,7 +104,7 @@ struct ConfirmationView: View {
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 15)
-                    .fill(Color.white)
+                    .fill(Color(UIColor(red: 255 / 255.0, green: 237 / 255.0, blue: 233 / 255.0, alpha: 1.0)))
                     .shadow(radius: 5)
             )
             .padding()
@@ -141,7 +141,7 @@ struct GenderSelectionView: View {
             }
         }
         .padding()
-        .background(RoundedRectangle(cornerRadius: 15).fill(Color.white).shadow(radius: 5))
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color(UIColor(red: 255 / 255.0, green: 237 / 255.0, blue: 233 / 255.0, alpha: 1.0))).shadow(radius: 5))
         .padding()
     }
 }
@@ -196,7 +196,7 @@ struct WeightSelectionView: View {
 
         }
         .padding()
-        .background(RoundedRectangle(cornerRadius: 15).fill(Color.white).shadow(radius: 5))
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color(UIColor(red: 255 / 255.0, green: 237 / 255.0, blue: 233 / 255.0, alpha: 1.0))).shadow(radius: 5))
         .padding()
     }
 }
@@ -230,7 +230,7 @@ struct HeightSelectionView: View {
             }
         }
         .padding()
-        .background(RoundedRectangle(cornerRadius: 15).fill(Color.white).shadow(radius: 5))
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color(UIColor(red: 255 / 255.0, green: 237 / 255.0, blue: 233 / 255.0, alpha: 1.0))).shadow(radius: 5))
         .padding()
     }
 }
@@ -253,7 +253,7 @@ struct ActivityLevelView: View {
                     Text(level)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(selectedActivity == level ? Color.blue : Color.gray.opacity(0.2))
+                        .background(selectedActivity == level ? Color(UIColor(red: 255 / 255.0, green: 93 / 255.0, blue: 55 / 255.0, alpha: 1.0)) : Color.gray.opacity(0.2))
                         .foregroundColor(selectedActivity == level ? .white : .black)
                         .cornerRadius(10)
                 }
@@ -267,7 +267,7 @@ struct ActivityLevelView: View {
             }
         }
         .padding()
-        .background(RoundedRectangle(cornerRadius: 15).fill(Color.white).shadow(radius: 5))
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color(UIColor(red: 255 / 255.0, green: 237 / 255.0, blue: 233 / 255.0, alpha: 1.0))).shadow(radius: 5))
         .padding()
     }
 }
@@ -295,7 +295,7 @@ struct GoalSelectionView: View {
                     Text(goal)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(selectedGoal == goal ? Color.blue : Color.gray.opacity(0.2))
+                        .background(selectedGoal == goal ? Color(UIColor(red: 255 / 255.0, green: 93 / 255.0, blue: 55 / 255.0, alpha: 1.0)) : Color.gray.opacity(0.2))
                         .foregroundColor(selectedGoal == goal ? .white : .black)
                         .cornerRadius(10)
                 }
@@ -311,11 +311,19 @@ struct GoalSelectionView: View {
                     step += 1 // Move to the next step (confirmation view)
                 }
             }
-            .buttonStyle(.borderedProminent)
             .disabled(selectedGoal.isEmpty) // Disable button if no goal is selected
+            .padding()
+            //.buttonStyle(.borderedProminent)
+            .background(
+                selectedGoal.isEmpty
+                    ? Color.gray // Disabled state
+                    : Color(UIColor(red: 125 / 255.0, green: 185 / 255.0, blue: 143 / 255.0, alpha: 1.0)) // Enabled: #7DB98F
+            )
+            .foregroundColor(.white) // Text color
+            .cornerRadius(10)
         }
         .padding()
-        .background(RoundedRectangle(cornerRadius: 15).fill(Color.white).shadow(radius: 5))
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color(UIColor(red: 255 / 255.0, green: 237 / 255.0, blue: 233 / 255.0, alpha: 1.0))).shadow(radius: 5))
         .padding()
     }
 }
@@ -334,7 +342,7 @@ struct ContinueButton: View {
             Text("Continue")
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(isEnabled ? Color.green : Color.gray)
+                .background(isEnabled ? Color(UIColor(red: 125 / 255.0, green: 185 / 255.0, blue: 143 / 255.0, alpha: 1.0)) : Color.gray)
                 .foregroundColor(.white)
                 .cornerRadius(10)
         }
@@ -352,7 +360,7 @@ struct GenderButton: View {
             Text(label)
                 .font(.headline)
                 .frame(width: 120, height: 50)
-                .background(isSelected ? Color.blue : Color.gray)
+                .background(isSelected ? Color(UIColor(red: 255 / 255.0, green: 93 / 255.0, blue: 55 / 255.0, alpha: 1.0)) : Color.gray)
                 .foregroundColor(.white)
                 .cornerRadius(25)
                 .padding()

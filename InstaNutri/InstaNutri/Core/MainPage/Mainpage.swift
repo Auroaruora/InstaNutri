@@ -35,6 +35,7 @@ struct MainPageView: View {
                     }) {
                         Image(systemName: "person.circle.fill")
                             .resizable()
+                            .foregroundColor(Color(UIColor(red: 130 / 255.0, green: 23 / 255.0, blue: 10 / 255.0, alpha: 1.0)))
                             .frame(width: 50, height: 50)
                             .clipShape(Circle())
                             .padding(.leading)
@@ -79,7 +80,8 @@ struct MainPageView: View {
                                                     .foregroundColor(isSelected ? .white : .black)
                                             }
                                             .frame(width: 50, height: 70)
-                                            .background(isSelected ? Color.blue : Color.gray.opacity(0.2))
+                                            .background(isSelected ?  Color(UIColor(red: 154 / 255.0, green: 194 / 255.0, blue: 208 / 255.0, alpha: 1.0))
+ : Color.gray.opacity(0.2))
                                             .cornerRadius(10)
                                         }
                                         .id(currentDate) // Assign a unique ID for each date
@@ -107,7 +109,7 @@ struct MainPageView: View {
                                 Image(systemName: "calendar")
                                     .resizable()
                                     .frame(width: 30, height: 30)
-                                    .foregroundColor(.blue)
+                                    .foregroundColor(Color(UIColor(red: 154 / 255.0, green: 194 / 255.0, blue: 208 / 255.0, alpha: 1.0)))
                             }
                             
                             Text(formattedMonth(for: selectedDate))
@@ -122,6 +124,7 @@ struct MainPageView: View {
                                     displayedComponents: [.date]
                                 )
                                 .datePickerStyle(GraphicalDatePickerStyle())
+                                .tint(Color(UIColor(red: 154 / 255.0, green: 194 / 255.0, blue: 208 / 255.0, alpha: 1.0)))
                                 .padding()
                                 
                                 Button("Done") {
@@ -131,7 +134,7 @@ struct MainPageView: View {
                                     isDatePickerPresented = false
                                 }
                                 .padding()
-                                .background(Color.blue)
+                                .background(Color(UIColor(red: 154 / 255.0, green: 194 / 255.0, blue: 208 / 255.0, alpha: 1.0)))
                                 .foregroundColor(.white)
                                 .cornerRadius(8)
                             }
@@ -193,7 +196,7 @@ struct MainPageView: View {
                                     Text("\(totalProteinToday)g / \(recommendedProteins)g")
                                         .font(.system(size: 16))
                                         .bold()
-                                        .foregroundColor(.green)
+                                        .foregroundColor(Color(UIColor(red: 110 / 255.0, green: 168 / 255.0, blue: 126 / 255.0, alpha: 1.0)))
                                     Text("Protein")
                                         .font(.system(size: 14))
                                         .foregroundColor(.gray)
@@ -203,7 +206,7 @@ struct MainPageView: View {
                                     Text("\(totalFatsToday)g / \(recommendedFat)g")
                                         .font(.system(size: 16))
                                         .bold()
-                                        .foregroundColor(.red)
+                                        .foregroundColor(Color(UIColor(red: 254 / 255.0, green: 179 / 255.0, blue: 66 / 255.0, alpha: 1.0)))
                                     Text("Fats")
                                         .font(.system(size: 14))
                                         .foregroundColor(.gray)
@@ -213,7 +216,7 @@ struct MainPageView: View {
                                     Text("\(totalCarbsToday)g / \(recommendedCarbs)g")
                                         .font(.system(size: 16))
                                         .bold()
-                                        .foregroundColor(.yellow)
+                                        .foregroundColor(Color(UIColor(red: 254 / 255.0, green: 93 / 255.0, blue: 55 / 255.0, alpha: 1.0)))
                                     Text("Carbs")
                                         .font(.system(size: 14))
                                         .foregroundColor(.gray)
@@ -261,7 +264,7 @@ struct MainPageView: View {
                         .font(.title2)
                         .foregroundColor(.white)
                         .padding(16)
-                        .background(Color.green)
+                        .background(Color(UIColor(red: 125 / 255.0, green: 185 / 255.0, blue: 143 / 255.0, alpha: 1.0)))
                         .clipShape(Circle())
                 }
                 .padding(.bottom, 20)
@@ -362,6 +365,7 @@ struct mealItemView: View {
                 VStack(alignment: .leading) {
                     Text(meal.time) // Display the time as the name
                         .font(.headline)
+                        .foregroundColor(Color(UIColor(red: 130 / 255.0, green: 23 / 255.0, blue: 10 / 255.0, alpha: 1.0)))
                     Text("\(Int(meal.totalCalories)) kcal") // Display total calories
                         .font(.subheadline)
                         .foregroundColor(.gray)
@@ -371,11 +375,11 @@ struct mealItemView: View {
             }
             
             HStack {
-                NutrientInfoView(nutrient: "Protein", amount: Int(meal.totalProtein), color: .green)
+                NutrientInfoView(nutrient: "Protein", amount: Int(meal.totalProtein), color: Color(UIColor(red: 110 / 255.0, green: 168 / 255.0, blue: 126 / 255.0, alpha: 1.0)))
                 Spacer()
-                NutrientInfoView(nutrient: "Fats", amount: Int(meal.totalFats), color: .red)
+                NutrientInfoView(nutrient: "Fats", amount: Int(meal.totalFats), color: Color(UIColor(red: 254 / 255.0, green: 179 / 255.0, blue: 66 / 255.0, alpha: 1.0)))
                 Spacer()
-                NutrientInfoView(nutrient: "Carbs", amount: Int(meal.totalCarbs), color: .yellow)
+                NutrientInfoView(nutrient: "Carbs", amount: Int(meal.totalCarbs), color: Color(UIColor(red: 254 / 255.0, green: 93 / 255.0, blue: 55 / 255.0, alpha: 1.0)))
             }
         }
         .padding()
@@ -397,6 +401,7 @@ struct NutrientInfoView: View {
     var body: some View {
         VStack {
             Text("\(amount)g")
+                .foregroundColor(Color(UIColor(red: 130 / 255.0, green: 23 / 255.0, blue: 10 / 255.0, alpha: 1.0)))
                 .bold()
             Text(nutrient)
                 .font(.footnote)

@@ -93,7 +93,7 @@ struct DetectedView: View {
                     .font(.headline)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.blue)
+                    .background(Color(UIColor(red: 125 / 255.0, green: 185 / 255.0, blue: 143 / 255.0, alpha: 1.0)) )
                     .foregroundColor(.white)
                     .cornerRadius(10)
                     .padding(.horizontal, 20)
@@ -135,11 +135,13 @@ struct FoodDetailView: View {
                 }
 
                 HStack {
-                    NutrientBar(color: .green, value: Int(foodItem.protein), label: "Protein")
+                    NutrientBar(color: Color(UIColor(red: 110 / 255.0, green: 168 / 255.0, blue: 126 / 255.0, alpha: 1.0)), value: Int(foodItem.protein), label: "Protein")
                     Spacer()
-                    NutrientBar(color: .red, value: Int(foodItem.fats), label: "Fats")
+                    NutrientBar(color: Color(UIColor(red: 254 / 255.0, green: 179 / 255.0, blue: 66 / 255.0, alpha: 1.0))
+, value: Int(foodItem.fats), label: "Fats")
                     Spacer()
-                    NutrientBar(color: .yellow, value: Int(foodItem.carbs), label: "Carbs")
+                    NutrientBar(color: Color(UIColor(red: 254 / 255.0, green: 93 / 255.0, blue: 55 / 255.0, alpha: 1.0))
+, value: Int(foodItem.carbs), label: "Carbs")
                 }
             }
             .padding(.leading, 8)
@@ -152,7 +154,7 @@ struct FoodDetailView: View {
                 }) {
                     Image(systemName: "ellipsis")
                         .font(.title3)
-                        .foregroundColor(.blue)
+                        .foregroundColor(Color(UIColor(red: 154 / 255.0, green: 194 / 255.0, blue: 208 / 255.0, alpha: 1.0)))
                 }
                 .actionSheet(isPresented: $showActionSheet) {
                     ActionSheet(
@@ -263,7 +265,7 @@ struct EditWeightView: View {
                 presentationMode.wrappedValue.dismiss() // Dismiss the sheet after saving
             }
             .padding()
-            .background(Color.blue)
+            .background(Color(UIColor(red: 154 / 255.0, green: 194 / 255.0, blue: 208 / 255.0, alpha: 1.0)))
             .foregroundColor(.white)
             .cornerRadius(8)
 

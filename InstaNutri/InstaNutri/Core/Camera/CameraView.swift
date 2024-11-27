@@ -40,7 +40,7 @@ struct CameraView: View {
                         Text("Save for Analysis")
                             .font(.headline)
                             .padding()
-                            .background(Color.green)
+                            .background(Color(UIColor(red: 125 / 255.0, green: 185 / 255.0, blue: 143 / 255.0, alpha: 1.0)))
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
@@ -63,7 +63,7 @@ struct CameraView: View {
                             Text("Retake")
                                 .font(.headline)
                                 .padding()
-                                .background(Color.blue)
+                                .background(Color(UIColor(red: 154 / 255.0, green: 194 / 255.0, blue: 208 / 255.0, alpha: 1.0)))
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
@@ -82,13 +82,14 @@ struct CameraView: View {
                         Text("Open Camera")
                             .font(.headline)
                             .padding()
-                            .background(Color.green)
+                            .background(Color(UIColor(red: 125 / 255.0, green: 185 / 255.0, blue: 143 / 255.0, alpha: 1.0)))
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
                 }
             }
         }
+        .background(Color(UIColor(red: 255 / 255.0, green: 236 / 255.0, blue: 232 / 255.0, alpha: 1.0)))
         .sheet(isPresented: $isCameraPresented) {
             ImagePicker(image: $capturedImage, isAnalyzing: $isAnalyzing)
         }

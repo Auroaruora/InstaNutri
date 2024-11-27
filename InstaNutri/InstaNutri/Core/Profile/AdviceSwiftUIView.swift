@@ -36,7 +36,7 @@ struct AdviceSwiftUIView: View {
                             .foregroundColor(.white)
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(Color.green)
+                            .background(Color(UIColor(red: 125 / 255.0, green: 185 / 255.0, blue: 143 / 255.0, alpha: 1.0)))
                             .cornerRadius(8)
                             .padding(.horizontal)
                     }
@@ -58,7 +58,7 @@ struct AdviceSwiftUIView: View {
                             .foregroundColor(.white)
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(Color.green)
+                            .background(Color(UIColor(red: 125 / 255.0, green: 185 / 255.0, blue: 143 / 255.0, alpha: 1.0)))
                             .cornerRadius(8)
                             .padding(.horizontal)
                     }

@@ -77,21 +77,21 @@ struct MealDetailView: View {
                         .foregroundColor(.primary)
                     Spacer()
                     Text("\(Int(meal.totalProtein))g")
-                        .foregroundColor(.green)
+                        .foregroundColor(Color(UIColor(red: 110 / 255.0, green: 168 / 255.0, blue: 126 / 255.0, alpha: 1.0)))
                 }
                 HStack {
                     Text("Fats:")
                         .foregroundColor(.primary)
                     Spacer()
                     Text("\(Int(meal.totalFats))g")
-                        .foregroundColor(.red)
+                        .foregroundColor(Color(UIColor(red: 254 / 255.0, green: 179 / 255.0, blue: 66 / 255.0, alpha: 1.0)))
                 }
                 HStack {
                     Text("Carbs:")
                         .foregroundColor(.primary)
                     Spacer()
                     Text("\(Int(meal.totalCarbs))g")
-                        .foregroundColor(.yellow)
+                        .foregroundColor(Color(UIColor(red: 254 / 255.0, green: 93 / 255.0, blue: 55 / 255.0, alpha: 1.0)))
                 }
             }
             .padding()
