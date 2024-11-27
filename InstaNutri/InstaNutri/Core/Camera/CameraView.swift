@@ -16,102 +16,108 @@ struct CameraView: View {
 
 
     var body: some View {
-        VStack {
-            if let image = capturedImage {
-                // Show the captured image and save button
-                VStack {
-                    Text("Captured Image")
-                        .font(.title)
-                        .padding()
-
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 300)
-                        .cornerRadius(10)
-                        .padding()
-
-                    Button(action: {
-                        self.isRetake = false
-                        saveImage()
-                        self.isAnalyzing = true
-                        analyzeImage(image: image)
-                    }) {
-                        Text("Save for Analysis")
-                            .font(.headline)
+        ZStack{
+    
+                Color(UIColor(red: 255 / 255.0, green: 236 / 255.0, blue: 232 / 255.0, alpha: 1.0))
+                    .edgesIgnoringSafeArea(.all)
+            VStack {
+                if let image = capturedImage {
+                    // Show the captured image and save button
+                    VStack {
+                        Text("Captured Image")
+                            .font(.title)
                             .padding()
-                            .background(Color(UIColor(red: 125 / 255.0, green: 185 / 255.0, blue: 143 / 255.0, alpha: 1.0)))
-                            .foregroundColor(.white)
+                        
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 300)
                             .cornerRadius(10)
-                    }
-                    .padding()
-                    
-                    if isAnalyzing {
-                        ProgressView("Please Wait... Analyzing...")
                             .padding()
-                    }
-
-                    if let path = savedImagePath {
-                        Text("Image saved at: \(path.lastPathComponent)")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                            .padding()
-                    }
-
-                    if isRetake {
-                        Button(action: resetCamera) {
-                            Text("Retake")
+                        
+                        Button(action: {
+                            self.isRetake = false
+                            saveImage()
+                            self.isAnalyzing = true
+                            analyzeImage(image: image)
+                        }) {
+                            Text("Save for Analysis")
                                 .font(.headline)
                                 .padding()
-                                .background(Color(UIColor(red: 154 / 255.0, green: 194 / 255.0, blue: 208 / 255.0, alpha: 1.0)))
+                                .background(Color(UIColor(red: 125 / 255.0, green: 185 / 255.0, blue: 143 / 255.0, alpha: 1.0)))
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        .padding()
+                        
+                        if isAnalyzing {
+                            ProgressView("Please Wait... Analyzing...")
+                                .padding()
+                                .foregroundColor(Color(UIColor(red: 60 / 255.0, green: 60 / 255.0, blue: 60 / 255.0, alpha: 1.0)))
+                        }
+                        
+                        if let path = savedImagePath {
+                            Text("Image saved at: \(path.lastPathComponent)")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                                .padding()
+                        }
+                        
+                        if isRetake {
+                            Button(action: resetCamera) {
+                                Text("Retake")
+                                    .font(.headline)
+                                    .padding()
+                                    .background(Color(UIColor(red: 154 / 255.0, green: 194 / 255.0, blue: 208 / 255.0, alpha: 1.0)))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                            }
+                        }
+                    }
+                } else {
+                    // Show camera button
+                    VStack {
+                        Text("Take a Photo of Your Food")
+                            .font(.title2)
+                            .padding()
+                            .foregroundColor(Color(UIColor(red: 60 / 255.0, green: 60 / 255.0, blue: 60 / 255.0, alpha: 1.0)))
+                        
+                        Button(action: {
+                            isCameraPresented = true
+                        }) {
+                            Text("Open Camera")
+                                .font(.headline)
+                                .padding()
+                                .background(Color(UIColor(red: 125 / 255.0, green: 185 / 255.0, blue: 143 / 255.0, alpha: 1.0)))
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
                     }
                 }
-            } else {
-                // Show camera button
-                VStack {
-                    Text("Take a Photo of Your Food")
-                        .font(.title2)
-                        .padding()
-
-                    Button(action: {
-                        isCameraPresented = true
-                    }) {
-                        Text("Open Camera")
-                            .font(.headline)
-                            .padding()
-                            .background(Color(UIColor(red: 125 / 255.0, green: 185 / 255.0, blue: 143 / 255.0, alpha: 1.0)))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                }
             }
-        }
-        .background(Color(UIColor(red: 255 / 255.0, green: 236 / 255.0, blue: 232 / 255.0, alpha: 1.0)))
-        .sheet(isPresented: $isCameraPresented) {
-            ImagePicker(image: $capturedImage, isAnalyzing: $isAnalyzing)
-        }
-        
-        
-        NavigationLink(
-            destination: navigateToDetectedView ? DetectedView(
-                onFinish: {
-                    navigateToDetectedView = false // Reset navigation to go back to MainPage
-                    onFinish()
-                },
-                foodItems: mapFoodItemsToFoodItem(foodItems: foodItems),
-                imageUrl: savedImagePath
-            ) : nil,
-            isActive: $navigateToDetectedView
-        ) {
-            EmptyView()
-        }
-        .hidden()
-
-
-    }
+            .background(Color(UIColor(red: 255 / 255.0, green: 236 / 255.0, blue: 232 / 255.0, alpha: 1.0)))
+            .sheet(isPresented: $isCameraPresented) {
+                ImagePicker(image: $capturedImage, isAnalyzing: $isAnalyzing)
+            }
+            
+            
+            NavigationLink(
+                destination: navigateToDetectedView ? DetectedView(
+                    onFinish: {
+                        navigateToDetectedView = false // Reset navigation to go back to MainPage
+                        onFinish()
+                    },
+                    foodItems: mapFoodItemsToFoodItem(foodItems: foodItems),
+                    imageUrl: savedImagePath
+                ) : nil,
+                isActive: $navigateToDetectedView
+            ) {
+                EmptyView()
+            }
+            .hidden()
+            
+            
+        }}
 
     func saveImage() {
         guard let image = capturedImage else { return }

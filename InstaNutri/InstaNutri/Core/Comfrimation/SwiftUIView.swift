@@ -125,6 +125,7 @@ struct FoodDetailView: View {
             VStack(alignment: .leading, spacing: 5) {
                 Text(foodItem.name)
                     .font(.headline)
+                    .foregroundColor(Color(UIColor(red: 40 / 255.0, green: 40 / 255.0, blue: 40 / 255.0, alpha: 1.0)))
 
                 HStack {
                     Image(systemName: "flame.fill")
@@ -221,6 +222,7 @@ struct NutrientBar: View {
             Text("\(value)g")
                 .font(.subheadline)
                 .fontWeight(.bold)
+                .foregroundColor(Color(UIColor(red: 40 / 255.0, green: 40 / 255.0, blue: 40 / 255.0, alpha: 1.0)))
             Text(label)
                 .font(.caption)
                 .foregroundColor(.gray)
