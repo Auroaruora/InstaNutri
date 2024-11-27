@@ -70,7 +70,7 @@ struct MealDetailView: View {
                     Spacer()
                     Text("\(Int(meal.totalCalories)) kcal")
                         .fontWeight(.bold)
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                 }
                 HStack {
                     Text("Protein:")

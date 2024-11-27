@@ -101,7 +101,7 @@ struct DetectedView: View {
             }
         }
         .background(Color(UIColor.systemGray6))
-        .edgesIgnoringSafeArea(.all)
+        //.edgesIgnoringSafeArea(.all)
     }
     
     private func deleteFoodItem(_ foodItem: FoodItem) {
@@ -181,7 +181,7 @@ struct FoodDetailView: View {
                         .foregroundColor(.gray)
                 }
             }
-            .padding(.trailing, 16)
+            .padding(.trailing, 3)
             .alert(isPresented: $showDeleteAlert) {
                 Alert(
                     title: Text("Delete Entry"),

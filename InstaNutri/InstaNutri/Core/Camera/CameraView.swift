@@ -25,8 +25,10 @@ struct CameraView: View {
                     // Show the captured image and save button
                     VStack {
                         Text("Captured Image")
-                            .font(.title)
+                            .font(.title2)
                             .padding()
+                            .foregroundColor(Color(UIColor(red: 60 / 255.0, green: 60 / 255.0, blue: 60 / 255.0, alpha: 1.0)))
+
                         
                         Image(uiImage: image)
                             .resizable()
