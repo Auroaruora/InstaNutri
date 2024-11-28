@@ -42,13 +42,18 @@ struct MainPageView: View {
                     }
                     
                     VStack(alignment: .leading) {
-                        let user = viewModel.currentUser
-                        Text("Welcome")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                        Text(user!.fullname)
-                            .font(.title2)
-                            .bold()
+                        if let user = viewModel.currentUser {
+                            Text("Welcome")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                            Text(user.fullname)
+                                .font(.title2)
+                                .bold()
+                        } else {
+                            Text("Welcome, Guest")
+                                .font(.title2)
+                                .bold()
+                        }
                     }
                     
                     Spacer()
