@@ -44,16 +44,18 @@ class AuthViewModel:ObservableObject{
             print("DEBUG:Failed to create user with error\(error.localizedDescription)")
         }
     }
-    func signOut(){
-        do{
-            try Auth.auth().signOut()//sign out user on backend
-            self.userSession = nil //wipes out user session andd takes us back to login screen
-            self.currentUser = nil//wipes out current user data model
-        }catch{
-            print("DEBUG: Failed to sign out with error\(error.localizedDescription)")
+    func signOut() async {
+        do {
+            try Auth.auth().signOut() // Sign out user on backend
+            
+            // Ensure UI updates are on the main thread
+            await MainActor.run {
+                self.userSession = nil // Wipes out user session
+                self.currentUser = nil // Wipes out current user data model
+            }
+        } catch {
+            print("DEBUG: Failed to sign out with error \(error.localizedDescription)")
         }
-        
-        
     }
     func deleteAccount(){
         

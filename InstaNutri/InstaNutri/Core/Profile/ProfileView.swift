@@ -70,7 +70,7 @@ struct ProfileView: View {
                 Section("Account") {
                     Button {
                         Task {
-                            try await viewModel.signOut()
+                            await viewModel.signOut()
                         }
                     } label: {
                         SettingRowView(imageName: "arrow.left.circle.fill",
