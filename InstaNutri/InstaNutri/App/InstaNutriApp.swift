@@ -12,6 +12,8 @@ import Firebase
 struct InstaNutriApp: App {
     @StateObject var viewModel = AuthViewModel()
     @StateObject var healthDataViewModel = HealthDataViewModel() // Add HealthDataViewModel
+    @StateObject private var networkMonitor = NetworkMonitor()
+
 
     init() {
         FirebaseApp.configure()
@@ -23,6 +25,8 @@ struct InstaNutriApp: App {
                 ContentView()
                     .environmentObject(viewModel) // Inject AuthViewModel
                     .environmentObject(healthDataViewModel) // Inject HealthDataViewModel
+                    .environmentObject(networkMonitor)
+
             }
         }
     }
