@@ -29,6 +29,7 @@ class AuthViewModel:ObservableObject{
             await fetchUser()
         }catch{
             print("DEBUG: Failed to sign in with error\(error.localizedDescription)")
+            throw error
         }
     }
     
@@ -57,8 +58,34 @@ class AuthViewModel:ObservableObject{
             print("DEBUG: Failed to sign out with error \(error.localizedDescription)")
         }
     }
-    func deleteAccount(){
+    func deleteAccount() async {
+        guard let user = Auth.auth().currentUser else {
+            print("DEBUG: No authenticated user found.")
+            return
+        }
         
+        // Step 1: Delete user data from Firestore
+        do {
+            try await Firestore.firestore().collection("users").document(user.uid).delete()
+            print("DEBUG: User data successfully deleted from Firestore.")
+        } catch {
+            print("DEBUG: Failed to delete user data from Firestore with error \(error.localizedDescription)")
+            return
+        }
+        
+        // Step 2: Delete the user's Firebase Authentication account
+        do {
+            try await user.delete()
+            print("DEBUG: User account successfully deleted from Firebase Authentication.")
+            
+            // Step 3: Clear local user session
+            await MainActor.run {
+                self.userSession = nil
+                self.currentUser = nil
+            }
+        } catch {
+            print("DEBUG: Failed to delete user account with error \(error.localizedDescription)")
+        }
     }
     func fetchUser() async{
         guard let uid = Auth.auth().currentUser?.uid else { return }

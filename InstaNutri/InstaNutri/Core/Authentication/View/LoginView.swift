@@ -11,6 +11,9 @@ struct LoginView: View {
     @State var email = ""
     @State var password = ""
     @EnvironmentObject var viewModel: AuthViewModel
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+
     //TODO, try to use @State private var email = "" but not working
     var body: some View {
         
@@ -41,9 +44,15 @@ struct LoginView: View {
                 //sign in button
                 Button{
                     Task{
-                        try await viewModel.signIn(withEmail: email, password: password)
+                        do {
+                            try await viewModel.signIn(withEmail: email, password: password)
+                        } catch {
+                            // Handle authentication error
+                            print("Error caught: \(error)")
+                            alertMessage = "Authentication failed. Please check your email and password."
+                            showAlert = true
+                        }
                     }
-                        
                 }label:{
                     HStack{
                         Text("SIGN IN")
@@ -61,6 +70,7 @@ struct LoginView: View {
                 //sign up button
                 NavigationLink{
                     RegistrationView()
+                        .environmentObject(viewModel)
                         .navigationBarBackButtonHidden()
                 }label:{
                     HStack(spacing:3){
@@ -74,6 +84,14 @@ struct LoginView: View {
                 }
             }
             .navigationTitle("Login")
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("Sign In Failed"),
+                    message: Text(alertMessage),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
+
         }
     }
 }
