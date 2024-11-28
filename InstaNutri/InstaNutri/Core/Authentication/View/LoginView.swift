@@ -71,6 +71,7 @@ struct LoginView: View {
                     .font(.system(size:14))
                 }
             }
+            .navigationTitle("Login")
         }
     }
 }
