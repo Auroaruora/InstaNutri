@@ -10,12 +10,27 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var viewModel:AuthViewModel
     @EnvironmentObject var healthDataViewModel: HealthDataViewModel
+    
+    @EnvironmentObject var networkMonitor: NetworkMonitor
+    @State private var showAlert = false
 
     var body: some View {
         Group{
             if viewModel.userSession != nil{
                 if let _ = viewModel.currentUser {
                     MainPageView()
+                        .onChange(of: networkMonitor.isConnected) { isConnected in
+                            if !isConnected {
+                                showAlert = true
+                            }
+                        }
+                        .alert(isPresented: $showAlert) {
+                            Alert(
+                                title: Text("No Network Connection"),
+                                message: Text("Please check your internet connection."),
+                                dismissButton: .default(Text("OK"))
+                            )
+                        }
                 } else {
                     LoadingView()
                 }
