@@ -15,11 +15,10 @@ struct RegistrationView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel: AuthViewModel
     
+    @State private var showWelcomeScreen = false
     
     //TODO, try to use @State private var email = "" but not working
     var body: some View {
-        
-        
         
         NavigationStack{
             VStack{
@@ -57,12 +56,14 @@ struct RegistrationView: View {
                 
                 //sign in button
                 Button{
-                    Task{
-                        try await viewModel.createUser(withEmail: email,
-                                                       password: password,
-                                                       fullname: fullname)
+                    Task {
+                        do {
+                            try await viewModel.createUser(withEmail: email, password: password, fullname: fullname)
+                            showWelcomeScreen = true // Show the welcome screen
+                        } catch {
+                            print("Error: \(error.localizedDescription)")
+                        }
                     }
-                    //UserDefaults.standard.set(fullname, forKey: "UserFullName")
                 }label:{
                     HStack{
                         Text("SIGN UP")
@@ -90,6 +91,44 @@ struct RegistrationView: View {
                 }
             }
         }
+        .sheet(isPresented: $showWelcomeScreen) {
+            WelcomeView(dismiss: dismiss)
+        }
+    }
+}
+
+struct WelcomeView: View {
+    let dismiss: DismissAction // Use the dismiss action to go back
+    
+    var body: some View {
+        VStack {
+            Spacer()
+            
+            Text("Welcome!")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .padding()
+            
+            Text("Your account has been created successfully.")
+                .font(.body)
+                .multilineTextAlignment(.center)
+                .padding()
+            
+            Spacer()
+            
+            Button {
+                dismiss() // Dismiss the Welcome screen
+            } label: {
+                Text("Continue")
+                    .fontWeight(.semibold)
+                    .frame(width: UIScreen.main.bounds.width - 64, height: 48)
+                    .foregroundColor(.white)
+                    .background(Color(.systemBlue))
+                    .cornerRadius(10)
+            }
+            .padding()
+        }
+        .padding()
     }
 }
 
